@@ -96,11 +96,8 @@ html[dir="rtl"] #lang-toggle{right:auto;left:14px}
 #envelope{
   position:fixed;inset:0;z-index:100;
   max-width:480px;margin:0 auto;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-  background:
-    radial-gradient(circle at 15% 90%, rgba(113,128,79,.14), transparent 55%),
-    radial-gradient(circle at 85% 8%, rgba(113,128,79,.12), transparent 50%),
-    var(--ivory);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  background:var(--ivory);
   transition:opacity 1s ease .9s, visibility 0s linear 1.9s;
   perspective:1400px;
   overflow:hidden;
@@ -108,26 +105,37 @@ html[dir="rtl"] #lang-toggle{right:auto;left:14px}
 }
 body.opened #envelope{opacity:0;visibility:hidden}
 
-.env-deco{position:absolute;pointer-events:none;opacity:.9;z-index:0}
-.env-deco.tl{width:150px;top:-30px;left:-40px;transform:rotate(-18deg)}
-.env-deco.br{width:150px;bottom:-30px;right:-40px;transform:rotate(160deg)}
+.env-wash{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 45% at 12% 96%, rgba(149,165,108,.4), transparent 70%),
+    radial-gradient(ellipse 50% 38% at 0% 70%, rgba(149,165,108,.32), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 92% 4%, rgba(149,165,108,.22), transparent 70%);
+  transition:opacity .8s ease;
+}
+body.opening .env-wash{opacity:0}
+
+.env-deco{position:absolute;pointer-events:none;opacity:.95;z-index:1;filter:drop-shadow(0 8px 14px rgba(60,55,35,.1))}
+.env-deco.tl{width:190px;top:-36px;left:-56px;transform:rotate(-12deg)}
+.env-deco.br{width:190px;bottom:-36px;right:-56px;transform:rotate(168deg)}
 body.opening .env-deco{opacity:0;transition:opacity .6s ease}
 
 .env-bow{
-  position:relative;z-index:2;width:64px;
+  position:relative;z-index:2;width:60px;
+  filter:drop-shadow(0 4px 8px rgba(60,55,35,.15));
   transition:opacity .6s ease;
 }
 body.opening .env-bow{opacity:0}
 
 .env-monogram{
   position:relative;z-index:2;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:92px;height:92px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+  width:78px;height:104px;border-radius:50%;
   border:1px solid var(--gold);
-  font-family:var(--serif);font-size:1.5rem;color:var(--olive-dark);
+  font-family:var(--serif);font-size:1.3rem;color:var(--olive-dark);
   transition:opacity .6s ease;
 }
-.env-monogram span{font-size:1rem;color:var(--gold)}
+.env-monogram span{font-size:.85rem;color:var(--gold);margin:-2px 0}
 
 .env-title{
   position:relative;z-index:2;max-width:100%;
@@ -164,41 +172,31 @@ body.opening .envelope{transform:translateY(14px) scale(.95)}
 .env-body{
   position:absolute;inset:0;z-index:2;
   border-radius:2px;
-  background:linear-gradient(160deg,#ffffff,var(--cream) 130%);
+  background:#fefdfa;
   box-shadow:
-    0 18px 38px rgba(70,70,35,.18),
-    inset 0 2px 0 rgba(255,255,255,.7),
-    inset 0 0 0 1px rgba(113,128,79,.18);
+    0 14px 30px rgba(70,70,35,.14),
+    inset 0 0 0 1px rgba(113,128,79,.12);
   overflow:hidden;
-}
-.env-body::before{
-  content:'';position:absolute;inset:0;
-  clip-path:polygon(0 0,0 100%,50% 55%);
-  background:linear-gradient(115deg,rgba(113,128,79,.14),rgba(113,128,79,0) 65%);
-}
-.env-body::after{
-  content:'';position:absolute;inset:0;
-  clip-path:polygon(100% 0,100% 100%,50% 55%);
-  background:linear-gradient(245deg,rgba(113,128,79,.14),rgba(113,128,79,0) 65%);
 }
 .env-bottom-fold{
   position:absolute;inset:0;
   clip-path:polygon(0 100%,100% 100%,50% 52%);
-  background:linear-gradient(0deg,rgba(113,128,79,.16),transparent 68%);
+  background:linear-gradient(0deg,rgba(113,128,79,.16),transparent 62%);
+  filter:drop-shadow(0 -1px 0 rgba(113,128,79,.3));
 }
 
 .env-flap{
   position:absolute;top:0;left:0;right:0;height:60%;z-index:3;
   clip-path:polygon(0 0,100% 0,50% 100%);
-  background:linear-gradient(165deg,#ffffff,var(--cream) 135%);
+  background:#fefdfa;
   transform-origin:top center;
   transition:transform 1.3s cubic-bezier(.6,.05,.3,1);
-  box-shadow:0 8px 16px rgba(70,70,35,.1);
+  filter:drop-shadow(0 3px 5px rgba(70,70,35,.16));
 }
 .env-flap::after{
   content:'';position:absolute;inset:0;
   clip-path:polygon(0 0,100% 0,50% 100%);
-  background:linear-gradient(180deg,transparent 55%,rgba(113,128,79,.14) 100%);
+  background:linear-gradient(180deg,transparent 45%,rgba(113,128,79,.16) 100%);
 }
 body.opening .env-flap{transform:rotateX(-178deg)}
 
@@ -330,7 +328,7 @@ section{
 html[dir="rtl"] .venue-bow{right:auto;left:6px;transform:scaleX(-1)}
 
 .round-btn{
-  display:flex;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   width:150px;height:150px;margin:0 auto;border-radius:50%;
   background:var(--olive);color:#fff;text-decoration:none;
   font-size:.72rem;letter-spacing:.5px;text-transform:uppercase;line-height:1.5;
@@ -338,46 +336,65 @@ html[dir="rtl"] .venue-bow{right:auto;left:6px;transform:scaleX(-1)}
   box-shadow:0 12px 26px rgba(113,128,79,.32);
   transition:transform .25s, box-shadow .25s;
 }
+.round-btn svg{width:22px;height:22px;flex:none}
 .round-btn:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(113,128,79,.4)}
-.round-btn.small{width:130px;height:130px;font-size:.66rem;margin-top:26px;background:var(--gold)}
+.round-btn.small{width:104px;height:104px;flex:none;font-size:.58rem;gap:5px;background:var(--gold)}
+.round-btn.small svg{width:18px;height:18px}
 
 /* palette */
 .palette-section{overflow:visible}
-.palette-bow{
-  position:absolute;width:60px;top:2px;left:14px;
-  transform:rotate(-12deg);pointer-events:none;
+.palette-card{
+  position:relative;
+  background:var(--olive-dark);
+  border-radius:14px;
+  padding:38px 26px 30px;
+  max-width:320px;margin:0 auto;
 }
-html[dir="rtl"] .palette-bow{left:auto;right:14px;transform:rotate(12deg) scaleX(-1)}
+.palette-bow{
+  position:absolute;width:56px;top:-30px;right:-6px;
+  transform:rotate(14deg);pointer-events:none;
+}
+html[dir="rtl"] .palette-bow{right:auto;left:-6px;transform:rotate(-14deg) scaleX(-1)}
+.dress-tag{
+  position:absolute;top:-16px;left:22px;z-index:2;
+  display:block;background:var(--ivory);
+  border-radius:8px;padding:8px 16px;
+  font-size:.64rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray);
+  line-height:1.6;text-align:center;
+  transform:rotate(-5deg);
+  box-shadow:0 8px 18px rgba(0,0,0,.18);
+}
+html[dir="rtl"] .dress-tag{left:auto;right:22px;transform:rotate(5deg)}
+.dress-tag b{display:block;font-family:var(--serif);font-size:.92rem;color:var(--charcoal)}
 .palette-row{
   display:flex;align-items:center;justify-content:center;gap:22px;margin-bottom:22px;
 }
-.dress-tag{
-  font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray);
-  border-right:1px solid var(--line);padding-right:22px;line-height:1.8;
-}
-html[dir="rtl"] .dress-tag{border-right:none;border-left:1px solid var(--line);padding-right:0;padding-left:22px}
-.dress-tag b{display:block;font-family:var(--serif);font-size:1rem;color:var(--charcoal)}
 .swatches{display:flex;gap:10px}
 .swatches i{
   display:block;width:38px;height:38px;border-radius:50%;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06), 0 4px 10px rgba(60,55,35,.15);
+  box-shadow:0 0 0 3px rgba(255,255,255,.18), 0 4px 10px rgba(0,0,0,.2);
 }
 .palette-text{
-  font-size:.86rem;line-height:1.9;color:var(--charcoal);max-width:320px;margin:0 auto;
+  font-size:.86rem;line-height:1.9;color:rgba(255,255,255,.92);max-width:280px;margin:0 auto;
 }
-.palette-text b{color:var(--olive-dark)}
+.palette-text b{color:var(--gold-light)}
 
 /* guest manual */
-.manual-list{list-style:none;max-width:300px;margin:0 auto;text-align:left}
+.manual-row{
+  display:flex;align-items:flex-start;justify-content:center;gap:18px;
+  max-width:360px;margin:0 auto;
+}
+html[dir="rtl"] .manual-row{flex-direction:row-reverse}
+.manual-list{list-style:none;flex:1;text-align:left;min-width:0}
 .manual-list li{
-  display:flex;align-items:center;gap:14px;
-  padding:12px 0;border-bottom:1px solid var(--line);
-  font-size:.88rem;color:var(--charcoal);
+  display:flex;align-items:center;gap:10px;
+  padding:11px 0;border-bottom:1px solid var(--line);
+  font-size:.82rem;color:var(--charcoal);
 }
 html[dir="rtl"] .manual-list{text-align:right}
 html[dir="rtl"] .manual-list li{flex-direction:row-reverse}
 .manual-list li:last-child{border-bottom:none}
-.manual-list svg{flex:none;width:22px;height:22px;stroke:var(--olive);color:var(--olive)}
+.manual-list svg{flex:none;width:20px;height:20px;stroke:var(--olive);color:var(--olive)}
 
 /* rsvp */
 .rsvp-section{
@@ -424,6 +441,7 @@ footer{
 
   <!-- ═══════════════ ENVELOPE (landing) ═══════════════ -->
   <div id="envelope">
+    <div class="env-wash"></div>
     <img class="env-deco tl" src="media/white floower on the side.png" alt="">
     <img class="env-deco br" src="media/white floower on the side.png" alt="">
 
@@ -499,34 +517,44 @@ footer{
       <h2 class="sec-title" id="venue-title">Local</h2>
       <div class="venue-name"><?= htmlspecialchars($config['venueName']) ?></div>
       <div class="venue-addr"><?= htmlspecialchars($config['venueAddress']) ?></div>
-      <a class="round-btn" id="venue-btn" href="<?= htmlspecialchars($config['mapsUrl']) ?>" target="_blank" rel="noopener"></a>
+      <a class="round-btn" id="venue-btn" href="<?= htmlspecialchars($config['mapsUrl']) ?>" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        <span id="venue-btn-text"></span>
+      </a>
     </section>
 
     <!-- palette -->
     <section class="fade palette-section">
-      <img class="palette-bow" src="media/white fyonka.png" alt="">
       <h2 class="sec-title" id="palette-title">Paleta do Casamento</h2>
-      <div class="palette-row">
+      <div class="palette-card">
+        <img class="palette-bow" src="media/white fyonka.png" alt="">
         <span class="dress-tag" id="dress-tag"><span id="dress-label">Traje</span><b id="dress-value">Formal</b></span>
-        <div class="swatches">
-          <i style="background:#cfc48d"></i>
-          <i style="background:#8a9a5f"></i>
-          <i style="background:#4d5936"></i>
+        <div class="palette-row">
+          <div class="swatches">
+            <i style="background:#cfc48d"></i>
+            <i style="background:#8a9a5f"></i>
+            <i style="background:#4d5936"></i>
+          </div>
         </div>
+        <p class="palette-text" id="palette-text"></p>
       </div>
-      <p class="palette-text" id="palette-text"></p>
     </section>
 
     <!-- guest manual -->
     <section class="fade">
       <h2 class="sec-title" id="manual-title">Manual do Convidado</h2>
-      <ul class="manual-list">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="manual-item-0"></span></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M5.5 5.5l13 13"/></svg><span id="manual-item-1"></span></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span id="manual-item-2"></span></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></svg><span id="manual-item-3"></span></li>
-      </ul>
-      <a class="round-btn small" id="gift-btn" href="<?= htmlspecialchars($config['giftListUrl']) ?>" target="_blank" rel="noopener"></a>
+      <div class="manual-row">
+        <ul class="manual-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="manual-item-0"></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M5.5 5.5l13 13"/></svg><span id="manual-item-1"></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span id="manual-item-2"></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></svg><span id="manual-item-3"></span></li>
+        </ul>
+        <a class="round-btn small" id="gift-btn" href="<?= htmlspecialchars($config['giftListUrl']) ?>" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-1.5-3-5-4-5-1.5S9 8 12 8Zm0 0c1.5-3 5-4 5-1.5S15 8 12 8Z"/></svg>
+          <span id="gift-btn-text"></span>
+        </a>
+      </div>
     </section>
 
     <!-- rsvp -->
@@ -687,7 +715,7 @@ function render(){
   document.getElementById('couple-invite').innerHTML = t.coupleInvite;
 
   document.getElementById('venue-title').textContent = t.venueTitle;
-  document.getElementById('venue-btn').innerHTML = t.venueBtn;
+  document.getElementById('venue-btn-text').innerHTML = t.venueBtn;
 
   document.getElementById('palette-title').textContent = t.paletteTitle;
   document.getElementById('dress-label').textContent = t.dressLabel;
@@ -696,7 +724,7 @@ function render(){
 
   document.getElementById('manual-title').textContent = t.manualTitle;
   t.manualItems.forEach((line,i) => document.getElementById('manual-item-'+i).textContent = line);
-  document.getElementById('gift-btn').innerHTML = t.giftBtn;
+  document.getElementById('gift-btn-text').innerHTML = t.giftBtn;
 
   document.getElementById('rsvp-title').textContent = t.rsvpTitle;
   document.getElementById('rsvp-btn').textContent = t.rsvpBtn;
