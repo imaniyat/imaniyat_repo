@@ -1,29 +1,9 @@
-<?php
-/* ══════════════════════════════════════════════════════════════
-   ✏️  EDIT YOUR WEDDING DETAILS HERE
-   ══════════════════════════════════════════════════════════════ */
-$config = [
-    'monogramA'      => 'M',
-    'monogramB'      => 'A',
-    'coupleNames'    => 'Maria & Antôni',
-    'weddingDateISO' => '2026-11-22T17:00:00',
-    'weddingDateBig' => '22.11.26',
-    'weddingTime'    => 'às 17h',
-    'venueName'      => 'Nome do Local',
-    'venueAddress'   => 'Endereço completo, Cidade - UF',
-    'mapsUrl'        => 'https://maps.google.com/?q=',
-    'giftListUrl'    => '#',
-    'rsvpUrl'        => '#',
-    'heroPhoto'      => 'media/couple.jpg',
-    'defaultLang'    => 'pt', // pt | en | fr | ar
-];
-?>
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars($config['defaultLang']) ?>">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= htmlspecialchars($config['coupleNames']) ?> — Convite de Casamento</title>
+<title>Maria &amp; Antôni — Convite de Casamento</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -473,7 +453,7 @@ footer{
     <img class="env-deco br" src="media/white flower.png" alt="">
 
     <img class="env-bow" src="media/white fyonka.png" alt="">
-    <div class="env-monogram"><?= htmlspecialchars($config['monogramA']) ?><span>&amp;</span><?= htmlspecialchars($config['monogramB']) ?></div>
+    <div class="env-monogram">M<span>&amp;</span>A</div>
     <div class="env-title" id="env-title">Querido Convidado</div>
     <div class="env-sub" id="env-sub">Possuímos um convite especial<br>para você!</div>
 
@@ -522,7 +502,7 @@ footer{
         <img class="savedate-bow" src="media/white fyonka.png" alt="">
         <img class="savedate-flower" src="media/white flower.png" alt="">
         <div class="savedate-label" id="savedate-label">Save the Date</div>
-        <div class="savedate-date"><?= htmlspecialchars($config['weddingDateBig']) ?></div>
+        <div class="savedate-date">22.11.26</div>
       </div>
     </section>
 
@@ -530,13 +510,13 @@ footer{
     <section class="fade">
       <div class="couple-card">
         <div class="couple-invite" id="couple-invite">Convidam para celebrar<br>seu casamento</div>
-        <div class="couple-names"><?= htmlspecialchars($config['coupleNames']) ?></div>
-        <div class="couple-time"><?= htmlspecialchars($config['weddingTime']) ?></div>
+        <div class="couple-names">Maria &amp; Antôni</div>
+        <div class="couple-time">às 17h</div>
       </div>
       <div class="polaroid-wrap">
         <img class="couple-bow" src="media/white fyonka.png" alt="">
         <div class="polaroid">
-          <img src="<?= htmlspecialchars($config['heroPhoto']) ?>" alt="<?= htmlspecialchars($config['coupleNames']) ?>" onerror="this.closest('.polaroid').classList.add('no-photo')">
+          <img src="media/couple.jpg" alt="Maria &amp; Antôni" onerror="this.closest('.polaroid').classList.add('no-photo')">
           <div class="polaroid-caption">i love you</div>
         </div>
       </div>
@@ -546,9 +526,9 @@ footer{
     <section class="fade venue-section">
       <img class="venue-bow" src="media/white fyonka.png" alt="">
       <h2 class="sec-title" id="venue-title">Local</h2>
-      <div class="venue-name"><?= htmlspecialchars($config['venueName']) ?></div>
-      <div class="venue-addr"><?= htmlspecialchars($config['venueAddress']) ?></div>
-      <a class="round-btn" id="venue-btn" href="<?= htmlspecialchars($config['mapsUrl']) ?>" target="_blank" rel="noopener">
+      <div class="venue-name">Nome do Local</div>
+      <div class="venue-addr">Endereço completo, Cidade - UF</div>
+      <a class="round-btn" id="venue-btn" href="https://maps.google.com/?q=" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
         <span id="venue-btn-text"></span>
       </a>
@@ -581,7 +561,7 @@ footer{
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span id="manual-item-2"></span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.2"/></svg><span id="manual-item-3"></span></li>
         </ul>
-        <a class="round-btn small" id="gift-btn" href="<?= htmlspecialchars($config['giftListUrl']) ?>" target="_blank" rel="noopener">
+        <a class="round-btn small" id="gift-btn" href="#" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-1.5-3-5-4-5-1.5S9 8 12 8Zm0 0c1.5-3 5-4 5-1.5S15 8 12 8Z"/></svg>
           <span id="gift-btn-text"></span>
         </a>
@@ -593,7 +573,7 @@ footer{
       <img class="rsvp-flower" src="media/white flower.png" alt="">
       <img class="rsvp-bow" src="media/white fyonka.png" alt="">
       <h2 class="sec-title light" id="rsvp-title">Confirme sua Presença</h2>
-      <a class="btn-confirm" id="rsvp-btn" href="<?= htmlspecialchars($config['rsvpUrl']) ?>" target="_blank" rel="noopener"></a>
+      <a class="btn-confirm" id="rsvp-btn" href="#" target="_blank" rel="noopener"></a>
     </section>
 
   </main>
@@ -601,15 +581,15 @@ footer{
   <footer>
     <img class="footer-bow" src="media/white fyonka.png" alt="">
     <p class="verse-text small" id="footer-verse" style="color:var(--gray)"></p>
-    <div class="footer-names"><?= htmlspecialchars($config['coupleNames']) ?></div>
+    <div class="footer-names">Maria &amp; Antôni</div>
   </footer>
 
 </div>
 
 <script>
 const CONFIG = {
-  weddingDateISO: "<?= $config['weddingDateISO'] ?>",
-  defaultLang: "<?= htmlspecialchars($config['defaultLang']) ?>"
+  weddingDateISO: "2026-11-22T17:00:00",
+  defaultLang: "pt"
 };
 
 /* ── translations ── */
