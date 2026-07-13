@@ -105,20 +105,18 @@ html[dir="rtl"] #lang-toggle{right:auto;left:14px}
 }
 body.opened #envelope{opacity:0;visibility:hidden}
 
-.env-wash{
-  position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 60% 45% at 12% 96%, rgba(149,165,108,.4), transparent 70%),
-    radial-gradient(ellipse 50% 38% at 0% 70%, rgba(149,165,108,.32), transparent 70%),
-    radial-gradient(ellipse 55% 40% at 92% 4%, rgba(149,165,108,.22), transparent 70%);
-  transition:opacity .8s ease;
+.env-water{
+  position:absolute;top:50%;left:50%;z-index:0;pointer-events:none;
+  width:150%;max-width:640px;
+  transform:translate(-50%,-50%);
+  opacity:.95;
 }
-body.opening .env-wash{opacity:0}
 
 .env-deco{position:absolute;pointer-events:none;opacity:.95;z-index:1;filter:drop-shadow(0 8px 14px rgba(60,55,35,.1))}
-.env-deco.tl{width:190px;top:-36px;left:-56px;transform:rotate(-12deg)}
-.env-deco.br{width:190px;bottom:-36px;right:-56px;transform:rotate(168deg)}
-body.opening .env-deco{opacity:0;transition:opacity .6s ease}
+.env-deco.left{width:150px;top:50%;left:-30px;transform:translateY(-50%)}
+.env-deco.br{width:180px;bottom:-10px;right:-46px;transform:rotate(6deg)}
+html[dir="rtl"] .env-deco.left{left:auto;right:-30px;transform:translateY(-50%) scaleX(-1)}
+html[dir="rtl"] .env-deco.br{right:auto;left:-46px;transform:rotate(-6deg) scaleX(-1)}
 
 .env-bow{
   position:relative;z-index:2;width:60px;
@@ -220,6 +218,45 @@ body.opening .seal-btn{transform:translate(-50%,-50%) scale(.3) rotate(18deg);op
   transition:opacity .5s;
 }
 @keyframes hintBlink{0%,100%{opacity:.4}50%{opacity:1}}
+body.letter-open .env-hint{display:none}
+
+/* ── the letter that slides out of the opened envelope, showing the live countdown ── */
+.letter-card{
+  position:relative;z-index:5;
+  width:min(72vw,250px);
+  margin-top:-34px;
+  padding:26px 20px 20px;
+  background:#fefdfa;
+  border-radius:3px;
+  text-align:center;
+  box-shadow:0 24px 46px rgba(60,55,35,.28);
+  opacity:0;
+  transform:translateY(26px) rotate(-3deg);
+  transition:opacity .8s ease .1s, transform .8s ease .1s;
+  pointer-events:none;
+}
+body.letter-open .letter-card{opacity:1;transform:translateY(0) rotate(-3deg);pointer-events:auto}
+.letter-label{
+  font-family:var(--serif);font-style:italic;
+  font-size:.85rem;color:var(--olive-dark);margin-bottom:14px;line-height:1.5;
+}
+.letter-countdown{display:flex;align-items:center;justify-content:center;gap:6px}
+.letter-countdown .cd-box b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--charcoal)}
+.letter-countdown .cd-box span{font-size:.56rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray)}
+.letter-countdown .cd-sep{font-family:var(--serif);font-size:1.2rem;color:var(--gold);margin-top:-12px}
+
+.letter-continue{
+  position:relative;z-index:5;
+  border:none;background:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-family:var(--sans);font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--olive-dark);
+  opacity:0;transition:opacity .8s ease .5s;
+  pointer-events:none;
+}
+body.letter-open .letter-continue{opacity:1;pointer-events:auto}
+.letter-continue svg{width:16px;height:16px;animation:cueDown 1.6s ease-in-out infinite}
+@keyframes cueDown{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 
 /* ═══════════════════ SECTIONS ═══════════════════ */
 main{padding-bottom:10px}
@@ -248,16 +285,6 @@ section{
 }
 .verse-text.small{font-size:.85rem;color:rgba(255,255,255,.92)}
 .verse-ref{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
-
-/* countdown */
-.countdown-label{
-  font-family:var(--serif);font-style:italic;
-  font-size:1.05rem;color:var(--charcoal);margin-bottom:26px;
-}
-.countdown{display:flex;align-items:center;justify-content:center;gap:8px}
-.cd-box b{display:block;font-family:var(--serif);font-size:1.7rem;color:var(--olive-dark)}
-.cd-box span{font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray)}
-.cd-sep{font-family:var(--serif);font-size:1.4rem;color:var(--gold);margin-top:-14px}
 
 /* save the date */
 .savedate-card{
@@ -441,9 +468,9 @@ footer{
 
   <!-- ═══════════════ ENVELOPE (landing) ═══════════════ -->
   <div id="envelope">
-    <div class="env-wash"></div>
-    <img class="env-deco tl" src="media/white floower on the side.png" alt="">
-    <img class="env-deco br" src="media/white floower on the side.png" alt="">
+    <img class="env-water" src="media/green water color.png" alt="">
+    <img class="env-deco left" src="media/white floower on the side.png" alt="">
+    <img class="env-deco br" src="media/white flower.png" alt="">
 
     <img class="env-bow" src="media/white fyonka.png" alt="">
     <div class="env-monogram"><?= htmlspecialchars($config['monogramA']) ?><span>&amp;</span><?= htmlspecialchars($config['monogramB']) ?></div>
@@ -460,6 +487,24 @@ footer{
     </div>
 
     <div class="env-hint" id="env-hint">Toque no selo para abrir</div>
+
+    <!-- letter that slides out once the seal is tapped, showing the live countdown -->
+    <div class="letter-card" id="letter-card">
+      <p class="letter-label" id="countdown-label"></p>
+      <div class="letter-countdown">
+        <div class="cd-box"><b id="cd-d">--</b><span data-cd="0"></span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><b id="cd-h">--</b><span data-cd="1"></span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><b id="cd-m">--</b><span data-cd="2"></span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><b id="cd-s">--</b><span data-cd="3"></span></div>
+      </div>
+    </div>
+    <button class="letter-continue" id="continue-btn" aria-label="Continuar">
+      <span id="continue-label">Continuar</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
   </div>
 
   <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
@@ -469,20 +514,6 @@ footer{
     <section class="fade verse-section">
       <p class="verse-text" id="verse-text"></p>
       <p class="verse-ref" id="verse-ref"></p>
-    </section>
-
-    <!-- countdown -->
-    <section class="fade countdown-section">
-      <p class="countdown-label" id="countdown-label"></p>
-      <div class="countdown">
-        <div class="cd-box"><b id="cd-d">--</b><span data-cd="0"></span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-box"><b id="cd-h">--</b><span data-cd="1"></span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-box"><b id="cd-m">--</b><span data-cd="2"></span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-box"><b id="cd-s">--</b><span data-cd="3"></span></div>
-      </div>
     </section>
 
     <!-- save the date -->
@@ -608,7 +639,8 @@ const I18N = {
     ],
     giftBtn:"Confira nossa<br>lista de presentes",
     rsvpTitle:"Confirme sua Presença",
-    rsvpBtn:"Quero Confirmar"
+    rsvpBtn:"Quero Confirmar",
+    continueLabel:"Continuar"
   },
   en: {
     envTitle:"Dear Guest",
@@ -635,7 +667,8 @@ const I18N = {
     ],
     giftBtn:"Check our<br>gift registry",
     rsvpTitle:"Confirm your Attendance",
-    rsvpBtn:"I'll Be There"
+    rsvpBtn:"I'll Be There",
+    continueLabel:"Continue"
   },
   fr: {
     envTitle:"Cher invité",
@@ -662,7 +695,8 @@ const I18N = {
     ],
     giftBtn:"Découvrez notre<br>liste de mariage",
     rsvpTitle:"Confirmez votre présence",
-    rsvpBtn:"Je confirme"
+    rsvpBtn:"Je confirme",
+    continueLabel:"Continuer"
   },
   ar: {
     envTitle:"عزيزي الضيف",
@@ -689,7 +723,8 @@ const I18N = {
     ],
     giftBtn:"اطّلع على قائمة<br>هدايانا",
     rsvpTitle:"أكد حضورك",
-    rsvpBtn:"سأكون هناك"
+    rsvpBtn:"سأكون هناك",
+    continueLabel:"متابعة"
   }
 };
 
@@ -729,6 +764,8 @@ function render(){
   document.getElementById('rsvp-title').textContent = t.rsvpTitle;
   document.getElementById('rsvp-btn').textContent = t.rsvpBtn;
 
+  document.getElementById('continue-label').textContent = t.continueLabel;
+
   document.querySelectorAll('#lang-toggle button').forEach(b =>
     b.classList.toggle('active', b.dataset.lang === lang));
 
@@ -738,11 +775,15 @@ function render(){
 document.querySelectorAll('#lang-toggle button').forEach(b =>
   b.addEventListener('click', () => { lang = b.dataset.lang; render(); }));
 
-/* envelope opening */
+/* envelope opening: seal → flap opens → letter with the live countdown slides out → tap continue to enter the site */
 const seal = document.getElementById('seal');
 seal.addEventListener('click', () => {
   document.body.classList.add('opening');
-  setTimeout(() => document.body.classList.add('opened'), 900);
+  setTimeout(() => document.body.classList.add('letter-open'), 900);
+}, { once:true });
+
+document.getElementById('continue-btn').addEventListener('click', () => {
+  document.body.classList.add('opened');
 }, { once:true });
 
 /* countdown */
