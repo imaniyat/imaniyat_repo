@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:title" content="Wedding Invitation">
-<meta property="og:description" content="Mouhamed Lemine & Fatimetou">
-<meta property="og:image" content="https://imaniyat.app/invitations/wedding876544/media/letter1.jpeg">
-<meta property="og:url" content="https://imaniyat.app/invitations/wedding876544">
+<meta property="og:description" content="Abdellahi & Iman">
+<meta property="og:image" content="https://imaniyat.app/invitations/wedding227363/media/letter.jpeg">
+<meta property="og:url" content="https://imaniyat.app/invitations/wedding227363">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Wedding Invitation">
-<meta name="twitter:description" content="Mouhamed Lemine & Fatimetou">
-<meta name="twitter:image" content="https://imaniyat.app/invitations/wedding876544/media/letter1.jpeg">
+<meta name="twitter:description" content="Abdellahi & Iman">
+<meta name="twitter:image" content="https://imaniyat.app/invitations/wedding227363/media/letter.jpeg">
 
-<title>Mouhamed Lemine & Fatimetou — Wedding Invitation</title>
+<title>Abdellahi & Iman — Wedding Invitation</title>
 
 <link rel="icon" href="../../logo.png">
 <!-- Fonts: Great Vibes (script) · Playfair Display (serif) · Montserrat (sans) · Amiri + Reem Kufi (Arabic) -->
@@ -28,8 +28,8 @@
   --sage-dark:#7e9070;
   --ivory:#fdfbf4;
   --cream:#f8f4e8;
-  --rose:#b76e79;
-  --rose-dark:#9c5661;
+  --rose:#be7214;
+  --rose-dark:#a96511;
   --crimson:#8e2f3c;
   --charcoal:#3d3a36;
   --gray:#8a857d;
@@ -422,7 +422,7 @@ footer{
       <div class="env-bottom-fold"></div>
     </div>
     <div class="env-flap"></div>
-    <button class="seal" id="seal" aria-label="Open invitation"><span id="seal-initials">M &amp; F</span></button>
+    <button class="seal" id="seal" aria-label="Open invitation"><span id="seal-initials">A &amp; I</span></button>
 
     <svg class="env-floral tr" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <g fill="none">
@@ -460,8 +460,8 @@ footer{
   <div class="veil"></div>
   <div class="hero-card">
     <div class="hero-sub" data-i18n="subtitle">Nous nous marions</div>
-    <h1 class="hero-names" id="hero-names">Mouhamed Lemine &amp; Fatimetou</h1>
-    <div class="hero-date" data-i18n="dateText">Jeudi 10 septembre 2026 · 17h00</div>
+    <h1 class="hero-names" id="hero-names">Abdellahi &amp; Iman</h1>
+    <div class="hero-date" data-i18n="dateText">Jeudi 8 septembre 2026 · 17h00</div>
     <div class="hero-sep"></div>
     <div class="countdown">
       <div class="cd-box"><b id="cd-d">--</b><span data-cd="0">Jours</span></div>
@@ -478,10 +478,10 @@ footer{
   <section class="fade">
     <div class="invite-poem" id="invite-poem"></div>
     <div class="invite-monogram" aria-hidden="true">
-      <span>ف</span><i class="im-sep"></i><span>م</span>
+      <span>إ</span><i class="im-sep"></i><span>ع</span>
     </div>
     <div class="invite-couple" id="invite-couple"></div>
-    <div class="invite-date">27.07.2026</div>
+    <div class="invite-date">08.08.2026</div>
     <div class="invite-closing" id="invite-closing"></div>
   </section>
 
@@ -493,19 +493,7 @@ footer{
   </section>
 
   <!-- ═══ Event Details & Map ═══ -->
-  <section class="fade">
-    <h2 class="sec-title" data-i18n="detailsTitle">Détails de l'événement</h2>
-    <div class="sec-orn"></div>
-    <div class="venue-name" id="venue-name"></div>
-    <div class="venue-addr" id="venue-addr"></div>
-    <div class="map-wrap">
-      <iframe id="map-frame" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Map"></iframe>
-    </div>
-    <div class="detail-btns">
-      <a class="btn" id="directions-link" href="#" target="_blank" rel="noopener" data-i18n="directions"></a>
-      <a class="btn ghost" id="calendar-link" href="#" target="_blank" rel="noopener" data-i18n="calendar"></a>
-    </div>
-  </section>
+  <!-- REMOVED - Event Details section disabled -->
 
   <!-- ═══ Greeting ═══ -->
   <section class="fade">
@@ -515,7 +503,7 @@ footer{
 </main>
 
 <footer>
-  <div class="footer-names" id="footer-names">Mouhamed Lemine &amp; Fatimetou</div>
+  <div class="footer-names" id="footer-names">Abdellahi &amp; Iman</div>
   <div class="footer-note" data-i18n="footer"></div>
 </footer>
 
@@ -525,7 +513,7 @@ footer{
        Nothing below the I18N block needs to be touched.
    ══════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  initials: "M & F",
+  initials: "A & I",
 
   // ── MEDIA ── paste direct URLs (Cloudinary / Imgur / your host).
   // If heroVideoUrl is empty, heroImageUrl is used. If both empty, a soft gradient shows.
@@ -533,13 +521,13 @@ const CONFIG = {
   heroImageUrl: "",                       // e.g. "https://i.imgur.com/xxxx.jpg"
 
   // ── DATE (for the live countdown + calendar button) ──
-  weddingDateISO: "2026-07-27T20:00:00",
-  weddingEndISO:  "2026-07-28T02:00:00",
+  weddingDateISO: "2026-08-08T20:00:00",
+  weddingEndISO:  "2026-08-09T02:00:00",
 
   // ── VENUE ── (display name/address are per-language in I18N below; this is only used to locate the map pin)
   // built from the venue name/address below (no API key needed). For a nicer embed later:
   // Google Maps → Share → "Embed a map" → copy the src="..." URL and paste it here instead.
-  mapsEmbedUrl: "https://www.google.com/maps?q=" + encodeURIComponent("قاعة اللؤلؤة، نواكشوط الغربية، موريتانيا") + "&output=embed",
+  mapsEmbedUrl: "https://www.google.com/maps?q=" + encodeURIComponent("name of venue") + "&output=embed",
   mapsDirectionsUrl: "https://maps.app.goo.gl/Nb7D26vgAGrF8Yk57",
 
   defaultLang: "fr"                       // "fr" | "en" | "ar"
@@ -548,9 +536,9 @@ const CONFIG = {
 /* ── ALL TEXT, IN 3 LANGUAGES ─────────────────────────────────── */
 const I18N = {
   fr: {
-    names: "Mouhamed Lemine & Fatimetou",
+    names: "Abdellahi & Iman",
     subtitle: "Nous nous marions",
-    dateText: "Lundi 27 juillet 2026 · 20h00",
+    dateText: "Vendredi 8 août 2026",
     cd: ["Jours","Heures","Minutes","Secondes"],
     invitePoem: [
       "Qu'Allah les bénisse tous deux et les réunisse dans le bien et la joie.",
@@ -572,9 +560,9 @@ const I18N = {
     footer: "Avec tout notre amour"
   },
   en: {
-    names: "Mouhamed Lemine & Fatimetou",
+    names: "Abdellahi & Iman",
     subtitle: "We are getting married",
-    dateText: "Monday, July 27, 2026 · 8:00 PM",
+    dateText: "Friday, August 8, 2026",
     cd: ["Days","Hours","Minutes","Seconds"],
     invitePoem: [
       "O Allah, bless them both and unite them in goodness and joy.",
@@ -596,9 +584,9 @@ const I18N = {
     footer: "With all our love"
   },
   ar: {
-    names: "محمد لمين & فاطمة",
-    subtitle: "سنتزوج",
-    dateText: "الاثنين ٢٧ يوليو ٢٠٢٦ · الساعة الثامنة مساءً",
+    names: "عبد الله & إيمان",
+    subtitle: "زواج",
+    dateText: "الجمعة 8 أغسطس 2026",
     cd: ["يوم","ساعة","دقيقة","ثانية"],
     invitePoem: [
       "اللهم بارك لهما وعليهما واجمع بينهما بالخير و المسره",
@@ -646,8 +634,8 @@ function render(){
   document.getElementById('wedding-date-big').textContent = t.dateText;
 
   // venue (per-language name/address)
-  document.getElementById('venue-name').textContent = t.venueName;
-  document.getElementById('venue-addr').textContent = t.venueAddress;
+  if (document.getElementById('venue-name')) document.getElementById('venue-name').textContent = t.venueName;
+  if (document.getElementById('venue-addr')) document.getElementById('venue-addr').textContent = t.venueAddress;
 
   // greeting
   document.getElementById('greet-text').textContent = t.greet;
@@ -664,8 +652,8 @@ document.querySelectorAll('#lang-toggle button').forEach(b =>
 
 /* ── static CONFIG bindings ── */
 document.getElementById('seal-initials').textContent = CONFIG.initials;
-document.getElementById('map-frame').src = CONFIG.mapsEmbedUrl;
-document.getElementById('directions-link').href = CONFIG.mapsDirectionsUrl;
+if (document.getElementById('map-frame')) document.getElementById('map-frame').src = CONFIG.mapsEmbedUrl;
+if (document.getElementById('directions-link')) document.getElementById('directions-link').href = CONFIG.mapsDirectionsUrl;
 
 /* ── hero media (video > image > gradient fallback) ── */
 (function(){
@@ -689,8 +677,10 @@ document.getElementById('directions-link').href = CONFIG.mapsDirectionsUrl;
   const d = I18N[CONFIG.defaultLang];
   const title = encodeURIComponent('Wedding — ' + d.names);
   const loc = encodeURIComponent(d.venueName + ', ' + d.venueAddress);
-  document.getElementById('calendar-link').href =
-    `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(CONFIG.weddingDateISO)}/${fmt(CONFIG.weddingEndISO)}&location=${loc}`;
+  const calLink = document.getElementById('calendar-link');
+  if (calLink) {
+    calLink.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(CONFIG.weddingDateISO)}/${fmt(CONFIG.weddingEndISO)}&location=${loc}`;
+  }
 })();
 
 /* ── envelope opening ── */
