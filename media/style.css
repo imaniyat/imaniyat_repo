@@ -273,6 +273,8 @@
   }
   .sb-arch svg{ width:56%; height:56%; }
   .sb-arch.stand-arch{ overflow:visible; }
+  .sb-arch.stand-arch::after{ z-index:0; }
+  .sb-arch.stand-arch .book-stage{ position:relative; z-index:1; }
   .sb-arch .ring{
     position:absolute; inset:14px; border:1.5px dashed rgba(111,157,146,.5); border-radius:136px 136px 8px 8px;
   }
