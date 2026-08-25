@@ -37,10 +37,7 @@
   position:relative; min-height:100vh; overflow-x:clip; padding-bottom:70px;
   font-family:'Cairo', system-ui, sans-serif;
   color:var(--nb-ink);
-  background:
-    radial-gradient(120% 90% at 100% 0%,  var(--nb-blush) 0%, transparent 55%),
-    radial-gradient(90%  80% at 0% 100%, var(--nb-teal-pale) 0%, transparent 60%),
-    linear-gradient(180deg, var(--nb-cream) 0%, #f9f3ea 55%, var(--nb-cream) 100%);
+  background:radial-gradient(circle at 0% 90%, rgba(111, 157, 146, .22), transparent 45%), radial-gradient(circle at 82% 80%, rgba(207, 152, 120, .22), transparent 45%), var(--nb-cream);
 }
 
 /* ---------- top bar : brand (right) · filter (center) · back (left) ---------- */
@@ -61,19 +58,53 @@
 .nb-brand span{ font-family:'Aref Ruqaa', serif; font-size:1.05rem; color:var(--nb-teal); }
 
 .nb-filter{
-  justify-self:center; width:min(100%, 520px);
-  display:flex; align-items:center; gap:12px;
-  background:var(--nb-paper); border-radius:100px; padding:14px 24px;
+  position:relative; justify-self:center; width:min(100%, 520px);
+}
+.nb-filter-trigger{
+  width:100%; display:flex; align-items:center; gap:12px;
+  background:var(--nb-paper); border:none; border-radius:100px; padding:14px 24px;
   box-shadow:0 12px 30px -16px rgba(var(--nb-shadow),.4);
+  font-family:inherit; cursor:pointer; text-align:start;
+  transition:box-shadow .25s var(--nb-ease);
 }
-.nb-filter .ico{ flex:none; width:19px; height:19px; color:var(--nb-accent); }
-.nb-filter select{
-  flex:1; min-width:0; border:none; background:transparent; appearance:none;
-  font-family:inherit; font-size:1rem; font-weight:700; color:var(--nb-ink);
-  cursor:pointer; text-align:start;
+.nb-filter-trigger:hover{ box-shadow:0 16px 34px -14px rgba(var(--nb-shadow),.5); }
+.nb-filter-trigger[aria-expanded="true"]{ box-shadow:0 16px 34px -14px rgba(var(--nb-shadow),.55); }
+.nb-filter-trigger:focus-visible{ outline:2px solid var(--nb-teal); outline-offset:3px; }
+.nb-filter .ico{ flex:none; width:19px; height:19px; color:var(--nb-accent); pointer-events:none; }
+.nb-filter-label{
+  flex:1; min-width:0; font-size:1rem; font-weight:700; color:var(--nb-ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; pointer-events:none;
 }
-.nb-filter select:focus{ outline:none; }
-.nb-filter .chev{ flex:none; width:16px; height:16px; color:var(--nb-ink-soft); }
+.nb-filter .chev{
+  flex:none; width:16px; height:16px; color:var(--nb-ink-soft); pointer-events:none;
+  transition:transform .25s var(--nb-ease);
+}
+.nb-filter-trigger[aria-expanded="true"] .chev{ transform:rotate(180deg); }
+
+.nb-filter-menu{
+  position:absolute; top:calc(100% + 10px); inset-inline:0; z-index:20;
+  list-style:none; margin:0; padding:9px;
+  max-height:min(60vh, 340px); overflow-y:auto;
+  background:var(--nb-paper); border-radius:24px;
+  box-shadow:0 26px 54px -18px rgba(var(--nb-shadow),.5);
+  opacity:0; visibility:hidden; transform:translateY(-8px) scale(.98);
+  transform-origin:top center;
+  transition:opacity .22s var(--nb-ease), transform .22s var(--nb-ease), visibility .22s;
+}
+.nb-filter-menu.open{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+.nb-filter-menu li{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-radius:15px;
+  font-size:.97rem; font-weight:600; color:var(--nb-ink-soft);
+  cursor:pointer; transition:background .16s, color .16s;
+}
+.nb-filter-menu li:hover,
+.nb-filter-menu li.focused{ background:var(--nb-teal-pale); color:var(--nb-teal); }
+.nb-filter-menu li.selected{ color:var(--nb-teal); font-weight:800; }
+.nb-filter-menu li.selected::after{
+  content:""; margin-inline-start:auto; flex:none;
+  width:7px; height:7px; border-radius:50%; background:var(--nb-gold);
+}
 
 .nb-back{
   width:52px; height:52px; border-radius:50%;
@@ -121,7 +152,7 @@
   /* box-shadow:0 10px 20px -14px rgba(var(--nb-shadow),.5); */
   transition:transform .3s var(--nb-ease), border-color .3s, opacity .3s;
 }
-.nb-thumb img{ width:100%; height:100%; object-fit:cover; border-radius:9px; display:block; }
+.nb-thumb img{ width:100%; height:100%; object-fit:contain; border-radius:9px; display:block; }
 .nb-thumb:hover{ transform:translateY(-4px); opacity:1; }
 .nb-thumb.active{
   border-color:#d9b7873f; opacity:1; transform:translateY(-5px) scale(1.06);
@@ -167,12 +198,12 @@
   --size:clamp(440px, 52vw, 720px);   /* ring diameter          */
   --bleed:50%;                        /* how much runs off-page */
   --r:calc(var(--size) * .40);        /* orbit radius           */
-  --base:38deg;                       /* resting spot on ring   */
+  --base:0deg;                       /* resting spot on ring   */
   --a:0deg;                           /* live orbit offset      */
   position:relative; width:var(--size); aspect-ratio:1/1;
   justify-self:end;                              /* left column in RTL */
   margin-inline-end:calc(var(--bleed) * -1);     /* bleeds off the edge */
-  margin-block:100px 30px;
+  margin-block:80px 30px;
 }
 .nb-ring{
   position:absolute; inset:0; border-radius:50%;
@@ -181,7 +212,7 @@
       transparent 0 59.6%, var(--nb-teal) 60% 100%);
   box-shadow:0 40px 80px -40px rgba(var(--nb-shadow),.5);
   transform:rotate(var(--spin,0deg));
-  transition:transform 1.05s var(--nb-ease);
+  transition:transform 1.3s var(--nb-ease);
 }
 /* dashed guide + gold beads so the rotation is readable */
 .nb-ring::before{
@@ -206,28 +237,62 @@
 /* the cover rides ON the ring: rotate around the centre, then
    counter-rotate itself so it always stays upright */
 .nb-orbit{
-  position:absolute; top:50%; inset-inline-start:50%; width:0; height:0;
-  transform:rotate(calc(var(--base) + var(--a)));
-  transition:transform .58s var(--nb-ease);
+  position:absolute;
+  top:50%;
+  inset-inline-start:50%;
+  width:0;
+  height:0;
+}
+
+.nb-old-orbit{
+  transform:rotate(var(--orbit, 0deg));
+  transition:transform 1.3s var(--nb-ease);
+  --orbit-angle: var(--orbit, 0deg);
+}
+
+.nb-new-orbit{
+  transform:rotate(var(--entry, 0deg));
+  transition:transform 1.3s var(--nb-ease);
+  --orbit-angle: var(--entry, 0deg);
 }
 .nb-cover{
-  position:absolute; top:0; left:0;
+  position:absolute;
+  top:0;
+  left:0;
   width:clamp(150px, 50vw, 600px);
-  transform:translate(-50%,-50%) translateY(calc(var(--r) * -1))
-            rotate(calc((var(--base) + var(--a)) * -1));
-  transition:transform .58s var(--nb-ease), opacity .5s var(--nb-ease);
-  /* padding:9px; border-radius:20px; background:var(--nb-sand);
-  box-shadow:0 30px 55px -20px rgba(var(--nb-shadow),.5); */
+
+  transform:
+    translate(-20%,-20%)
+    translateY(calc(var(--r) * -1))
+    rotate(calc((var(--base) + var(--orbit-angle, 0deg)) * -1));
+
+  transition:
+    transform 1.3s var(--nb-ease),
+    opacity 1.3s var(--nb-ease);
 }
+
+
 .nb-cover img{
-  width:100%; display:block; border-radius:13px;
+  width:100%;
+  display:block;
+  border-radius:13px;
   filter:drop-shadow(0 12px 18px rgba(var(--nb-shadow),.2));
 }
-.nb-stage.is-out .nb-orbit,
-.nb-stage.is-out .nb-cover{ opacity:0; }
+
+.nb-old-cover,
+.nb-new-cover{
+  transition:opacity 1.3s var(--nb-ease);
+}
+
+.nb-old-orbit,
+.nb-old-cover{
+  transition:
+    transform 1.3s var(--nb-ease),
+    opacity 1.3s var(--nb-ease);
+}
+
 .nb-stage.no-anim .nb-orbit,
-.nb-stage.no-anim .nb-cover,
-.nb-stage.no-anim .nb-ring{ transition:none !important; }
+.nb-stage.no-anim .nb-cover{ transition:none !important; }
 
 /* ---------- responsive ---------- */
 @media (max-width:1000px){
@@ -237,9 +302,14 @@
     --r:0px; --base:0deg;
     margin-inline-end:0; justify-self:center;
   }
-  .nb-cover{ width: clamp(88px, 143vw, 446px);
+  .nb-cover{ width: clamp(88px, 80vw, 400px);
         left: -40px;
-        top: -30px; }
+        top: -30px; 
+        transform:
+    translate(-50%,-50%)
+    translateY(calc(var(--r) * -1))
+    rotate(calc((var(--base) + var(--orbit-angle, 0deg)) * 1));
+  }
           
   .nb-info p{ margin-inline:auto; }
   .nb-features{ align-items:flex-start; margin-inline:auto; width:fit-content; }
@@ -270,10 +340,14 @@
       <span>إيمانيات</span>
     </a>
 
-    <div class="nb-filter">
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M7 12h10M10 19h4" stroke-linecap="round"/></svg>
-      <select id="categoryFilter" aria-label="تصنيف الدفاتر"></select>
-      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="nb-filter" id="filterBox">
+      <button type="button" class="nb-filter-trigger" id="filterTrigger"
+              aria-haspopup="listbox" aria-expanded="false" aria-label="تصنيف الدفاتر">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M7 12h10M10 19h4" stroke-linecap="round"/></svg>
+        <span class="nb-filter-label" id="filterLabel">جميع الدفاتر</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="nb-filter-menu" id="filterMenu" role="listbox" aria-label="تصنيف الدفاتر"></ul>
     </div>
 
     <a class="nb-back" href="../future.html#services" aria-label="رجوع">
@@ -305,9 +379,18 @@
     <div class="nb-stage" id="stage">
       <div class="nb-ring" id="ring"></div>
       <div class="nb-disc"></div>
-      <div class="nb-orbit" id="orbit">
-        <figure class="nb-cover" id="cover">
-          <img id="detailImg" src="" alt="">
+
+      <!-- OLD COVER -->
+      <div class="nb-orbit nb-old-orbit" id="oldOrbit">
+        <figure class="nb-cover" id="oldCover">
+          <img src="" id="oldImg" alt="">
+        </figure>
+      </div>
+
+      <!-- NEW COVER -->
+      <div class="nb-orbit nb-new-orbit" id="newOrbit">
+        <figure class="nb-cover" id="newCover">
+          <img src="" id="newImg" alt="">
         </figure>
       </div>
     </div>
@@ -316,15 +399,16 @@
 </div>
 
 <script>
-  // NOTE: every entry below points at the same placeholder cover photo
-  // (media/notebookstrp.png). Swap `image` per item once real cover
-  // photos for each notebook exist.
-  const PLACEHOLDER_IMG = '../media/notebookstrp.png';
+  // Each notebook has its own `image`. Only "زاد الحفاظ" has a real
+  // standalone cover photo so far (media/zad.png). The rest still fall
+  // back to the old group shot (media/notebookstrp.png) until real
+  // individual cover photos are provided for them.
+  const FALLBACK_IMG = '../media/notebookstrp.png';
 
   const NOTEBOOKS = [
     {
       category:'quran', categoryLabel:'القرآن الكريم',
-      title:'زاد الحفاظ', image:PLACEHOLDER_IMG,
+      title:'زاد الحفاظ', image:'../media/zad.png',
       intro:'مفكرة زاد الحفاظ هي خريطة عملية لتجعل الحفظ والمراجعة والتدبر أسلوب حياة.',
       features:[
         'معلومات وآداب قرآنية تعمق صلتك بالقرآن',
@@ -334,79 +418,107 @@
       ]
     },
     {
-      category:'quran', categoryLabel:'القرآن الكريم',
-      title:'رحلة الحفظ', image:PLACEHOLDER_IMG,
-      intro:'مفكرة مرافقة لرحلتك اليومية في حفظ القرآن، بجدول مبسّط ومساحة للتأمل والمراجعة.',
-      features:[
-        'جدول يومي لتسميع الورد الجديد ومراجعة القديم',
-        'مساحة لتدوين معاني الكلمات والفوائد',
-        'متابعة أسبوعية وشهرية لتقدّمك في الحفظ'
-      ]
-    },
-    {
-      category:'nazm', categoryLabel:'النظم والمتون',
-      title:'دفتر النظم والمتون', image:PLACEHOLDER_IMG,
-      intro:'لتدوين أبيات المتون العلمية ومراجعتها بطريقة منظمة تعينك على الحفظ والفهم.',
-      features:[
-        'مساحات مخصصة لكتابة الأبيات وشرحها',
-        'ترقيم وتقسيم يسهّل الرجوع والمراجعة',
-        'جدول متابعة لحفظ الأبواب والفصول'
-      ]
-    },
-    {
-      category:'daily', categoryLabel:'التخطيط اليومي',
-      title:'مخطط اليوم', image:PLACEHOLDER_IMG,
-      intro:'خطّطي ليومك من الفجر إلى المساء، مع مساحة للعبادات والمهام والعادات اليومية.',
-      features:[
-        'متابعة الصلوات والأذكار اليومية',
-        'قائمة مهام وأولويات لكل يوم',
-        'مساحة للتأمل وتقييم اليوم قبل النوم'
-      ]
-    },
-    {
       category:'yearly', categoryLabel:'التخطيط السنوي',
-      title:'المخطط السنوي', image:PLACEHOLDER_IMG,
-      intro:'رؤية شاملة لعامك، بمساحة للأهداف الشهرية والفصلية ومتابعة الإنجاز خطوة بخطوة.',
+      title:'كن أنت الراوي', image:'../media/rawi.png',
+      intro:'في سنة 2026... لا تدع أيامك تمرّ دون أثر، كن أنت الراوي، واكتب قصتك بوعي واختيار. هذه المفكرة صُممت لترافقك طوال السنة، تساعدك على تنظيم وقتك، فهم ذاتك، وتتبع تقدّمك خطوة بخطوة.',
       features:[
-        'صفحات لتحديد أهداف كل شهر وربطها بهدف السنة',
-        'تقويم سنوي كامل للتخطيط والمناسبات',
-        'مراجعة فصلية لتقييم التقدّم وتعديل المسار'
+        'صفحات للتخطيط السنوي والشهري',
+        'تنظيم يومي واضح ومَرِن',
+        'مساحات للتفكير، التفريغ الذهني، والتأمل',
+        'تقييم دوري للأهداف والعادات',
+        'أسئلة عميقة تعينك على الوعي والنمو',
+        'صفحات تلمك للاستمرار وبناء نسخة أفضل منك'
       ]
+
     },
-    {
-      category:'study', categoryLabel:'تنظيم الدراسة',
-      title:'دفتر تنظيم الدراسة', image:PLACEHOLDER_IMG,
-      intro:'لتنظيم موادك ومحاضراتك وجدول مذاكرتك في مكان واحد أنيق وعملي.',
-      features:[
-        'جدول أسبوعي للمحاضرات والمذاكرة',
-        'مساحة لتلخيص كل مادة على حدة',
-        'متابعة الواجبات والاختبارات بمواعيدها'
-      ]
-    },
-    {
-      category:'other', categoryLabel:'تصاميم أخرى',
-      title:'تصاميم أخرى', image:PLACEHOLDER_IMG,
-      intro:'دفاتر بتصاميم متنوعة لكل الأذواق، تجمع بين الجمال والعملية في كل صفحة.',
-      features:[
-        'تصاميم موسمية ومناسباتية محدودة',
-        'أغلفة وأنماط داخلية متعددة للاختيار',
-        'تُطبع حسب الطلب بجودة عالية'
-      ]
-    }
+    // {
+    //   category:'quran', categoryLabel:'القرآن الكريم',
+    //   title:'رحلة الحفظ', image:FALLBACK_IMG,
+    //   intro:'مفكرة مرافقة لرحلتك اليومية في حفظ القرآن، بجدول مبسّط ومساحة للتأمل والمراجعة.',
+    //   features:[
+    //     'جدول يومي لتسميع الورد الجديد ومراجعة القديم',
+    //     'مساحة لتدوين معاني الكلمات والفوائد',
+    //     'متابعة أسبوعية وشهرية لتقدّمك في الحفظ'
+    //   ]
+    // },
+    // {
+    //   category:'nazm', categoryLabel:'النظم والمتون',
+    //   title:'دفتر النظم والمتون', image:FALLBACK_IMG,
+    //   intro:'لتدوين أبيات المتون العلمية ومراجعتها بطريقة منظمة تعينك على الحفظ والفهم.',
+    //   features:[
+    //     'مساحات مخصصة لكتابة الأبيات وشرحها',
+    //     'ترقيم وتقسيم يسهّل الرجوع والمراجعة',
+    //     'جدول متابعة لحفظ الأبواب والفصول'
+    //   ]
+    // },
+    // {
+    //   category:'daily', categoryLabel:'التخطيط اليومي',
+    //   title:'مخطط اليوم', image:FALLBACK_IMG,
+    //   intro:'خطّطي ليومك من الفجر إلى المساء، مع مساحة للعبادات والمهام والعادات اليومية.',
+    //   features:[
+    //     'متابعة الصلوات والأذكار اليومية',
+    //     'قائمة مهام وأولويات لكل يوم',
+    //     'مساحة للتأمل وتقييم اليوم قبل النوم'
+    //   ]
+    // },
+    // {
+    //   category:'yearly', categoryLabel:'التخطيط السنوي',
+    //   title:'المخطط السنوي', image:FALLBACK_IMG,
+    //   intro:'رؤية شاملة لعامك، بمساحة للأهداف الشهرية والفصلية ومتابعة الإنجاز خطوة بخطوة.',
+    //   features:[
+    //     'صفحات لتحديد أهداف كل شهر وربطها بهدف السنة',
+    //     'تقويم سنوي كامل للتخطيط والمناسبات',
+    //     'مراجعة فصلية لتقييم التقدّم وتعديل المسار'
+    //   ]
+    // },
+    // {
+    //   category:'study', categoryLabel:'تنظيم الدراسة',
+    //   title:'دفتر تنظيم الدراسة', image:FALLBACK_IMG,
+    //   intro:'لتنظيم موادك ومحاضراتك وجدول مذاكرتك في مكان واحد أنيق وعملي.',
+    //   features:[
+    //     'جدول أسبوعي للمحاضرات والمذاكرة',
+    //     'مساحة لتلخيص كل مادة على حدة',
+    //     'متابعة الواجبات والاختبارات بمواعيدها'
+    //   ]
+    // },
+    // {
+    //   category:'other', categoryLabel:'تصاميم أخرى',
+    //   title:'تصاميم أخرى', image:FALLBACK_IMG,
+    //   intro:'دفاتر بتصاميم متنوعة لكل الأذواق، تجمع بين الجمال والعملية في كل صفحة.',
+    //   features:[
+    //     'تصاميم موسمية ومناسباتية محدودة',
+    //     'أغلفة وأنماط داخلية متعددة للاختيار',
+    //     'تُطبع حسب الطلب بجودة عالية'
+    //   ]
+    // }
   ];
 
   const trackEl        = document.getElementById('track');
-  const filterEl       = document.getElementById('categoryFilter');
-  const detailImg      = document.getElementById('detailImg');
+  const filterBox      = document.getElementById('filterBox');
+  const filterTrigger  = document.getElementById('filterTrigger');
+  const filterLabel    = document.getElementById('filterLabel');
+  const filterMenu     = document.getElementById('filterMenu');
   const detailCategory = document.getElementById('detailCategory');
   const detailTitle    = document.getElementById('detailTitle');
   const detailBody     = document.getElementById('detailBody');
-  const stage          = document.getElementById('stage');
-  const ring           = document.getElementById('ring');
+
+  const stage    = document.getElementById('stage');
+  const ring     = document.getElementById('ring');
+
+  const oldOrbit = document.getElementById('oldOrbit');
+  const newOrbit = document.getElementById('newOrbit');
+
+  const oldCover = document.getElementById('oldCover');
+  const newCover = document.getElementById('newCover');
+
+  const oldImg = document.getElementById('oldImg');
+  const newImg = document.getElementById('newImg');
 
   const SWING   = 88;   // how far along the ring the cover travels (deg)
-  const OUT_MS  = 520;  // travel-out duration
-  const IN_MS   = 580;  // travel-in duration
+  // const OUT_MS  = 800;  // travel-out duration (matches .nb-cover/.nb-orbit transition)
+  // const IN_MS   = 800;  // travel-in duration (matches .nb-cover/.nb-orbit transition)
+  const ANIM_MS = 1300;
+
 
   let currentList = [];
   let currentIndex = 0;
@@ -417,13 +529,57 @@
   function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
 
+  let filterValue = 'all';
+
   function buildFilterOptions(){
     const seen = new Map();
     NOTEBOOKS.forEach(n => seen.set(n.category, n.categoryLabel));
-    filterEl.innerHTML = ['<option value="all">جميع الدفاتر</option>']
-      .concat([...seen.entries()].map(([v,l]) => `<option value="${v}">${l}</option>`))
-      .join('');
+    const opts = [['all', 'جميع الدفاتر']].concat([...seen.entries()]);
+
+    filterMenu.innerHTML = opts.map(([v, l]) =>
+      `<li role="option" data-value="${v}" aria-selected="${v === filterValue}" class="${v === filterValue ? 'selected' : ''}">${l}</li>`
+    ).join('');
+
+    const current = opts.find(([v]) => v === filterValue) || opts[0];
+    filterLabel.textContent = current[1];
+
+    filterMenu.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', () => {
+        filterValue = li.dataset.value;
+        filterLabel.textContent = li.textContent;
+        filterMenu.querySelectorAll('li').forEach(o => {
+          const isSel = o === li;
+          o.classList.toggle('selected', isSel);
+          o.setAttribute('aria-selected', String(isSel));
+        });
+        closeFilterMenu();
+        applyFilter(filterValue);
+      });
+    });
   }
+
+  function openFilterMenu(){
+    filterMenu.classList.add('open');
+    filterTrigger.setAttribute('aria-expanded', 'true');
+    document.addEventListener('click', onFilterOutsideClick);
+    document.addEventListener('keydown', onFilterKeydown);
+  }
+  function closeFilterMenu(){
+    filterMenu.classList.remove('open');
+    filterTrigger.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onFilterOutsideClick);
+    document.removeEventListener('keydown', onFilterKeydown);
+  }
+  function onFilterOutsideClick(e){
+    if(!filterBox.contains(e.target)) closeFilterMenu();
+  }
+  function onFilterKeydown(e){
+    if(e.key === 'Escape'){ closeFilterMenu(); filterTrigger.focus(); }
+  }
+  filterTrigger.addEventListener('click', () => {
+    const isOpen = filterMenu.classList.contains('open');
+    isOpen ? closeFilterMenu() : openFilterMenu();
+  });
 
   function renderThumbnails(){
     trackEl.innerHTML = currentList.map((n,i) => `
@@ -436,13 +592,16 @@
   }
 
   function renderDetail(item){
-    detailImg.src = item.image;
-    detailImg.alt = item.title;
     detailCategory.textContent = item.categoryLabel;
     detailTitle.textContent = item.title;
+
     const feats = (item.features && item.features.length)
-      ? `<p class="nb-subhead">ماذا ستجد فيها؟</p><ul class="nb-features">${item.features.map(f => `<li>${f}</li>`).join('')}</ul>`
+      ? `<p class="nb-subhead">ماذا ستجد فيها؟</p>
+        <ul class="nb-features">
+          ${item.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>`
       : '';
+
     detailBody.innerHTML = `<p>${item.intro}</p>${feats}`;
   }
 
@@ -460,50 +619,113 @@
   function selectNotebook(index, opts){
     opts = opts || {};
     if(!currentList.length) return;
+
     index = ((index % currentList.length) + currentList.length) % currentList.length;
 
-    const dir = opts.dir || (index === currentIndex ? 1 : 1);
+    const dir = opts.dir || 1;
     const item = currentList[index];
+
     currentIndex = index;
     markActive(index);
 
+    // FIRST LOAD
     if(opts.animate === false){
-      clearTimers(); busy = false;
+      clearTimers();
+      busy = false;
+
       stage.classList.add('no-anim');
-      stage.classList.remove('is-out');
+
+      oldImg.src = item.image;
+      oldImg.alt = item.title;
+
+      oldOrbit.style.setProperty('--orbit', '0deg');
+      oldCover.style.opacity = '1';
+
+      newCover.style.opacity = '0';
+
       stage.style.setProperty('--a', '0deg');
+      ring.style.setProperty('--spin', spin + 'deg');
+
       renderDetail(item);
+
       void stage.offsetWidth;
       stage.classList.remove('no-anim');
+
       return;
     }
 
     clearTimers();
     busy = true;
 
-    // 1 · ring turns, cover travels away along its edge
+    // --------------------------------------------------
+    // OLD COVER
+    // --------------------------------------------------
+    // The old cover is currently visible.
+    // It will travel OUT with the ring.
+    // --------------------------------------------------
+
+    // Put the NEW cover at the opposite side BEFORE animation
+    newImg.src = item.image;
+    newImg.alt = item.title;
+
+    stage.classList.add('no-anim');
+
+    // New cover starts from opposite side
+    newOrbit.style.setProperty('--entry', `${-SWING * dir}deg`);
+    newCover.style.opacity = '0';
+
+    void stage.offsetWidth;
+
+    stage.classList.remove('no-anim');
+
+    // --------------------------------------------------
+    // BOTH START NOW
+    // --------------------------------------------------
+
+    // Ring rotates
     spin += 150 * dir;
     ring.style.setProperty('--spin', spin + 'deg');
-    stage.style.setProperty('--a', (SWING * dir) + 'deg');
-    stage.classList.add('is-out');
 
-    // 2 · once it's out of sight, jump to the entry point on the ring
+    // OLD moves out
+    oldOrbit.style.setProperty('--orbit', `${SWING * dir}deg`);
+    oldCover.style.opacity = '0';
+
+    // NEW moves in from opposite side
+    newOrbit.style.setProperty('--entry', '0deg');
+    newCover.style.opacity = '1';
+
+    // Update text immediately
+    renderDetail(item);
+
+    // --------------------------------------------------
+    // AFTER ANIMATION
+    // --------------------------------------------------
+
     later(() => {
-      renderDetail(item);
+
+      // Old becomes the new current cover
       stage.classList.add('no-anim');
-      stage.style.setProperty('--a', (-SWING * dir) + 'deg');
+
+      oldImg.src = item.image;
+      oldImg.alt = item.title;
+
+      oldOrbit.style.setProperty('--orbit', '0deg');
+      oldCover.style.opacity = '1';
+
+      // Hide new temporarily
+      newCover.style.opacity = '0';
+      newOrbit.style.setProperty('--entry', `${-SWING * dir}deg`);
+
       void stage.offsetWidth;
+
       stage.classList.remove('no-anim');
 
-      // 3 · the new cover rides back in to its resting spot
-      void stage.offsetWidth;
-      stage.classList.remove('is-out');
-      stage.style.setProperty('--a', '0deg');
-    }, OUT_MS);
+    }, ANIM_MS);
 
-    later(() => { busy = false; }, OUT_MS + IN_MS);
+    later(() => {
+      busy = false;
+    }, ANIM_MS + 50);
   }
-
   function step(delta){
     if(busy) return;
     selectNotebook(currentIndex + delta, { dir: delta > 0 ? 1 : -1 });
@@ -516,7 +738,6 @@
     selectNotebook(0, { animate:false });
   }
 
-  filterEl.addEventListener('change', () => applyFilter(filterEl.value));
   document.getElementById('prevBtn').addEventListener('click', () => step(-1));
   document.getElementById('nextBtn').addEventListener('click', () => step(1));
   document.addEventListener('keydown', e => {
