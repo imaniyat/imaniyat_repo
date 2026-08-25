@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل الدفاتر | إيمانيات</title>
+<meta name="description" content="تصفّحي دفاتر ومفكرات إيمانيات حسب التصنيف، واطّلعي على تفاصيل كل دفتر.">
+<link rel="icon" href="../media/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../media/style.css">
+<style>
+/* =========================================================
+   palette — falls back to the site tokens when style.css
+   defines them, otherwise uses the values from the design
+   ========================================================= */
+.nb-page{
+  --nb-teal:      var(--teal-deep,  #2f5d4f);
+  --nb-teal-pale: var(--teal-pale,  #dfe9df);
+  --nb-cream:     var(--cream,      #f6efe4);
+  --nb-paper:     var(--paper,      #fffdf9);
+  --nb-gold:      var(--gold,       #d9b787);
+  --nb-sand:      #e8d7be;
+  --nb-blush:     #f3e6e2;
+  --nb-ink:       var(--ink,        #34302b);
+  --nb-ink-soft:  var(--ink-soft,   #6d675f);
+  --nb-accent:    var(--coral-deep, #8a6a45);
+  --nb-shadow:    var(--shadow,     47,93,79);
+  --nb-ease:      var(--ease, cubic-bezier(.22,.68,.36,1));
+  --nb-maxw:      var(--maxw, 1240px);
+}
+
+/* ---------- page shell ---------- */
+.nb-page{
+  position:relative; min-height:100vh; overflow-x:clip; padding-bottom:70px;
+  font-family:'Cairo', system-ui, sans-serif;
+  color:var(--nb-ink);
+  background:
+    radial-gradient(120% 90% at 100% 0%,  var(--nb-blush) 0%, transparent 55%),
+    radial-gradient(90%  80% at 0% 100%, var(--nb-teal-pale) 0%, transparent 60%),
+    linear-gradient(180deg, var(--nb-cream) 0%, #f9f3ea 55%, var(--nb-cream) 100%);
+}
+
+/* ---------- top bar : brand (right) · filter (center) · back (left) ---------- */
+.nb-topbar{
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center; gap:16px;
+  max-width:var(--nb-maxw); margin:0 auto; padding:20px 22px 0;
+  position:relative; z-index:5;
+}
+.nb-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nb-brand-badge{
+  width:52px; height:52px; border-radius:50%; background:var(--nb-paper);
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid var(--nb-teal-pale);
+  box-shadow:0 8px 20px rgba(var(--nb-shadow),.18);
+}
+.nb-brand-badge img{ width:30px; height:30px; object-fit:contain; }
+.nb-brand span{ font-family:'Aref Ruqaa', serif; font-size:1.05rem; color:var(--nb-teal); }
+
+.nb-filter{
+  justify-self:center; width:min(100%, 520px);
+  display:flex; align-items:center; gap:12px;
+  background:var(--nb-paper); border-radius:100px; padding:14px 24px;
+  box-shadow:0 12px 30px -16px rgba(var(--nb-shadow),.4);
+}
+.nb-filter .ico{ flex:none; width:19px; height:19px; color:var(--nb-accent); }
+.nb-filter select{
+  flex:1; min-width:0; border:none; background:transparent; appearance:none;
+  font-family:inherit; font-size:1rem; font-weight:700; color:var(--nb-ink);
+  cursor:pointer; text-align:start;
+}
+.nb-filter select:focus{ outline:none; }
+.nb-filter .chev{ flex:none; width:16px; height:16px; color:var(--nb-ink-soft); }
+
+.nb-back{
+  width:52px; height:52px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--nb-teal); color:var(--nb-cream);
+  box-shadow:0 12px 24px -10px rgba(var(--nb-shadow),.5);
+  transition:transform .3s var(--nb-ease);
+}
+.nb-back:hover{ transform:scale(1.07); }
+.nb-back svg{ width:21px; height:21px; }
+
+/* ---------- thumbnail strip : white pill, arrows at both ends ---------- */
+.nb-strip-wrap{
+  max-width:var(--nb-maxw); margin:26px auto 0; padding:0 22px;
+  position:relative; z-index:4;
+}
+.nb-strip{
+  display:flex; align-items:center; gap:14px;
+  background:var(--nb-paper); border-radius:34px; padding:14px 16px;
+  box-shadow:0 20px 44px -26px rgba(var(--nb-shadow),.45);
+}
+.nb-arrow{
+  flex:none; width:46px; height:46px; border-radius:50%; border:none; cursor:pointer;
+  background:var(--nb-teal); color:var(--nb-cream);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 22px -12px rgba(var(--nb-shadow),.55);
+  transition:transform .28s var(--nb-ease), background .28s;
+}
+.nb-arrow:hover{ transform:scale(1.09); }
+.nb-arrow:active{ transform:scale(.95); }
+.nb-arrow svg{ width:19px; height:19px; }
+
+.nb-track{
+  flex:1; min-width:0; display:flex; justify-content:center; gap:16px;
+  overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch; padding:4px; scrollbar-width:none;
+}
+.nb-track::-webkit-scrollbar{ display:none; }
+
+.nb-thumb{
+  flex:none; width:96px; height:118px; border-radius:14px; padding:6px; cursor:pointer;
+  scroll-snap-align:center; background:rgba(255, 255, 255, 0);
+  border:2px solid transparent; opacity:.72;
+  /* box-shadow:0 10px 20px -14px rgba(var(--nb-shadow),.5); */
+  transition:transform .3s var(--nb-ease), border-color .3s, opacity .3s;
+}
+.nb-thumb img{ width:100%; height:100%; object-fit:cover; border-radius:9px; display:block; }
+.nb-thumb:hover{ transform:translateY(-4px); opacity:1; }
+.nb-thumb.active{
+  border-color:var(--nb-gold); opacity:1; transform:translateY(-5px) scale(1.06);
+  box-shadow:0 16px 26px -14px rgba(var(--nb-shadow),.55);
+}
+
+/* ---------- detail : text right, oversized ring bleeding off the left ---------- */
+.nb-detail{
+  position:relative; z-index:2;
+  max-width:var(--nb-maxw); margin:0 auto; padding:40px 22px 40px;
+  display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
+  /* align-items:center;  */
+  gap:30px;
+}
+.nb-info{ min-width:0; }
+.nb-category{
+  display:inline-flex; align-items:center; gap:9px;
+  background:var(--nb-teal-pale); color:var(--nb-teal);
+  font-weight:700; font-size:.9rem; padding:9px 20px; border-radius:100px;
+  margin-bottom:18px;
+}
+.nb-category::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--nb-gold); }
+.nb-info h1{
+  font-family:'Aref Ruqaa', serif; font-weight:700; color:var(--nb-teal);
+  font-size:clamp(2.4rem, 5vw, 3.8rem); line-height:1.25; margin:0 0 22px;
+}
+.nb-info p{ color:var(--nb-ink-soft); font-size:1.06rem; line-height:1.95; max-width:600px; margin:0 0 14px; }
+.nb-subhead{ font-weight:800; color:var(--nb-accent); font-size:1.08rem; margin:26px 0 14px !important; }
+.nb-features{ display:flex; flex-direction:column; gap:12px; margin:0; padding:0; }
+.nb-features li{
+  list-style:none; color:var(--nb-ink-soft); font-size:1.02rem; line-height:1.8;
+  position:relative; padding-inline-start:24px;
+}
+.nb-features li::before{
+  content:""; position:absolute; inset-inline-start:0; top:11px;
+  width:9px; height:9px; border-radius:50%; background:var(--nb-gold);
+}
+
+/* ===== the ring stage : huge, cropped by the page edge ===== */
+.nb-stage{
+  --size:clamp(440px, 52vw, 720px);   /* ring diameter          */
+  --bleed:50%;                        /* how much runs off-page */
+  --r:calc(var(--size) * .40);        /* orbit radius           */
+  --base:38deg;                       /* resting spot on ring   */
+  --a:0deg;                           /* live orbit offset      */
+  position:relative; width:var(--size); aspect-ratio:1/1;
+  justify-self:end;                              /* left column in RTL */
+  margin-inline-end:calc(var(--bleed) * -1);     /* bleeds off the edge */
+  margin-block:100px 30px;
+}
+.nb-ring{
+  position:absolute; inset:0; border-radius:50%;
+  background:
+    radial-gradient(circle closest-side at 50% 50%,
+      transparent 0 59.6%, var(--nb-teal) 60% 100%);
+  box-shadow:0 40px 80px -40px rgba(var(--nb-shadow),.5);
+  transform:rotate(var(--spin,0deg));
+  transition:transform 1.05s var(--nb-ease);
+}
+/* dashed guide + gold beads so the rotation is readable */
+.nb-ring::before{
+  content:""; position:absolute; inset:12%; border-radius:50%;
+  border:1.5px dashed rgba(255,255,255,.4);
+}
+.nb-ring::after{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 2.6%,  var(--nb-gold) 0 5px, transparent 5.5px),
+    radial-gradient(circle at 97.4% 50%, var(--nb-gold) 0 5px, transparent 5.5px),
+    radial-gradient(circle at 50% 97.4%, var(--nb-gold) 0 5px, transparent 5.5px),
+    radial-gradient(circle at 2.6% 50%,  var(--nb-gold) 0 5px, transparent 5.5px);
+}
+/* soft disc inside the ring so the cover has something to sit on */
+.nb-disc{
+  position:absolute; inset:20%; border-radius:50%;
+  background:radial-gradient(circle at 34% 26%, var(--nb-paper) 0%, var(--nb-cream) 55%, var(--nb-blush) 100%);
+  box-shadow:inset 0 12px 36px rgba(var(--nb-shadow),.08);
+}
+
+/* the cover rides ON the ring: rotate around the centre, then
+   counter-rotate itself so it always stays upright */
+.nb-orbit{
+  position:absolute; top:50%; inset-inline-start:50%; width:0; height:0;
+  transform:rotate(calc(var(--base) + var(--a)));
+  transition:transform .58s var(--nb-ease);
+}
+.nb-cover{
+  position:absolute; top:0; left:0;
+  width:clamp(150px, 50vw, 600px);
+  transform:translate(-50%,-50%) translateY(calc(var(--r) * -1))
+            rotate(calc((var(--base) + var(--a)) * -1));
+  transition:transform .58s var(--nb-ease), opacity .5s var(--nb-ease);
+  /* padding:9px; border-radius:20px; background:var(--nb-sand);
+  box-shadow:0 30px 55px -20px rgba(var(--nb-shadow),.5); */
+}
+.nb-cover img{
+  width:100%; display:block; border-radius:13px;
+  filter:drop-shadow(0 12px 18px rgba(var(--nb-shadow),.2));
+}
+.nb-stage.is-out .nb-orbit,
+.nb-stage.is-out .nb-cover{ opacity:0; }
+.nb-stage.no-anim .nb-orbit,
+.nb-stage.no-anim .nb-cover,
+.nb-stage.no-anim .nb-ring{ transition:none !important; }
+
+/* ---------- responsive ---------- */
+@media (max-width:1000px){
+  .nb-detail{ grid-template-columns:1fr; justify-items:center; text-align:center; gap:30px; padding-top:34px; }
+  .nb-stage{
+    order:-1; --size:min(78vw, 440px); --bleed:0%;
+    --r:calc(var(--size) * .38); --base:30deg;
+    margin-inline-end:0; justify-self:center;
+  }
+  .nb-cover{ width:clamp(120px, 30vw, 190px); }
+  .nb-info p{ margin-inline:auto; }
+  .nb-features{ align-items:flex-start; margin-inline:auto; width:fit-content; }
+  .nb-features li{ text-align:start; }
+}
+@media (max-width:620px){
+  .nb-topbar{ grid-template-columns:auto auto; row-gap:14px; }
+  .nb-filter{ grid-column:1 / -1; order:3; width:100%; }
+  .nb-track{ justify-content:flex-start; }
+  .nb-thumb{ width:78px; height:96px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .nb-ring, .nb-orbit, .nb-cover{ transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="nb-page">
+
+  <header class="nb-topbar">
+    <a class="nb-brand" href="../future.html#home">
+      <span class="nb-brand-badge"><img src="../media/logo.png" alt=""></span>
+      <span>إيمانيات</span>
+    </a>
+
+    <div class="nb-filter">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M7 12h10M10 19h4" stroke-linecap="round"/></svg>
+      <select id="categoryFilter" aria-label="تصنيف الدفاتر"></select>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <a class="nb-back" href="../future.html#services" aria-label="رجوع">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </header>
+
+  <div class="nb-strip-wrap">
+    <div class="nb-strip">
+      <!-- RTL: this one sits on the right, so it points right -->
+      <button class="nb-arrow" id="prevBtn" aria-label="الدفتر السابق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nb-track" id="track"></div>
+      <button class="nb-arrow" id="nextBtn" aria-label="الدفتر التالي">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <main class="nb-detail">
+    <!-- RTL: first column renders on the right -->
+    <div class="nb-info">
+      <span class="nb-category" id="detailCategory"></span>
+      <h1 class="display" id="detailTitle"></h1>
+      <div id="detailBody"></div>
+    </div>
+
+    <div class="nb-stage" id="stage">
+      <div class="nb-ring" id="ring"></div>
+      <div class="nb-disc"></div>
+      <div class="nb-orbit" id="orbit">
+        <figure class="nb-cover" id="cover">
+          <img id="detailImg" src="" alt="">
+        </figure>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  // NOTE: every entry below points at the same placeholder cover photo
+  // (media/notebookstrp.png). Swap `image` per item once real cover
+  // photos for each notebook exist.
+  const PLACEHOLDER_IMG = '../media/notebookstrp.png';
+
+  const NOTEBOOKS = [
+    {
+      category:'quran', categoryLabel:'القرآن الكريم',
+      title:'زاد الحفاظ', image:PLACEHOLDER_IMG,
+      intro:'مفكرة زاد الحفاظ هي خريطة عملية لتجعل الحفظ والمراجعة والتدبر أسلوب حياة.',
+      features:[
+        'معلومات وآداب قرآنية تعمق صلتك بالقرآن',
+        'تقنيات الحفظ مع طريقة الحصون الخمسة لضبط وتثبيت ما تحفظه',
+        'ركن أذكاري: أذكار الحفظ + أذكار الصباح والمساء والنوم',
+        'جداول متابعة لحفظ السور والأحزاب والأجزاء خطوة بخطوة'
+      ]
+    },
+    {
+      category:'quran', categoryLabel:'القرآن الكريم',
+      title:'رحلة الحفظ', image:PLACEHOLDER_IMG,
+      intro:'مفكرة مرافقة لرحلتك اليومية في حفظ القرآن، بجدول مبسّط ومساحة للتأمل والمراجعة.',
+      features:[
+        'جدول يومي لتسميع الورد الجديد ومراجعة القديم',
+        'مساحة لتدوين معاني الكلمات والفوائد',
+        'متابعة أسبوعية وشهرية لتقدّمك في الحفظ'
+      ]
+    },
+    {
+      category:'nazm', categoryLabel:'النظم والمتون',
+      title:'دفتر النظم والمتون', image:PLACEHOLDER_IMG,
+      intro:'لتدوين أبيات المتون العلمية ومراجعتها بطريقة منظمة تعينك على الحفظ والفهم.',
+      features:[
+        'مساحات مخصصة لكتابة الأبيات وشرحها',
+        'ترقيم وتقسيم يسهّل الرجوع والمراجعة',
+        'جدول متابعة لحفظ الأبواب والفصول'
+      ]
+    },
+    {
+      category:'daily', categoryLabel:'التخطيط اليومي',
+      title:'مخطط اليوم', image:PLACEHOLDER_IMG,
+      intro:'خطّطي ليومك من الفجر إلى المساء، مع مساحة للعبادات والمهام والعادات اليومية.',
+      features:[
+        'متابعة الصلوات والأذكار اليومية',
+        'قائمة مهام وأولويات لكل يوم',
+        'مساحة للتأمل وتقييم اليوم قبل النوم'
+      ]
+    },
+    {
+      category:'yearly', categoryLabel:'التخطيط السنوي',
+      title:'المخطط السنوي', image:PLACEHOLDER_IMG,
+      intro:'رؤية شاملة لعامك، بمساحة للأهداف الشهرية والفصلية ومتابعة الإنجاز خطوة بخطوة.',
+      features:[
+        'صفحات لتحديد أهداف كل شهر وربطها بهدف السنة',
+        'تقويم سنوي كامل للتخطيط والمناسبات',
+        'مراجعة فصلية لتقييم التقدّم وتعديل المسار'
+      ]
+    },
+    {
+      category:'study', categoryLabel:'تنظيم الدراسة',
+      title:'دفتر تنظيم الدراسة', image:PLACEHOLDER_IMG,
+      intro:'لتنظيم موادك ومحاضراتك وجدول مذاكرتك في مكان واحد أنيق وعملي.',
+      features:[
+        'جدول أسبوعي للمحاضرات والمذاكرة',
+        'مساحة لتلخيص كل مادة على حدة',
+        'متابعة الواجبات والاختبارات بمواعيدها'
+      ]
+    },
+    {
+      category:'other', categoryLabel:'تصاميم أخرى',
+      title:'تصاميم أخرى', image:PLACEHOLDER_IMG,
+      intro:'دفاتر بتصاميم متنوعة لكل الأذواق، تجمع بين الجمال والعملية في كل صفحة.',
+      features:[
+        'تصاميم موسمية ومناسباتية محدودة',
+        'أغلفة وأنماط داخلية متعددة للاختيار',
+        'تُطبع حسب الطلب بجودة عالية'
+      ]
+    }
+  ];
+
+  const trackEl        = document.getElementById('track');
+  const filterEl       = document.getElementById('categoryFilter');
+  const detailImg      = document.getElementById('detailImg');
+  const detailCategory = document.getElementById('detailCategory');
+  const detailTitle    = document.getElementById('detailTitle');
+  const detailBody     = document.getElementById('detailBody');
+  const stage          = document.getElementById('stage');
+  const ring           = document.getElementById('ring');
+
+  const SWING   = 88;   // how far along the ring the cover travels (deg)
+  const OUT_MS  = 520;  // travel-out duration
+  const IN_MS   = 580;  // travel-in duration
+
+  let currentList = [];
+  let currentIndex = 0;
+  let spin = 0;         // accumulated ring rotation
+  let busy = false;
+  let timers = [];
+
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+
+  function buildFilterOptions(){
+    const seen = new Map();
+    NOTEBOOKS.forEach(n => seen.set(n.category, n.categoryLabel));
+    filterEl.innerHTML = ['<option value="all">جميع الدفاتر</option>']
+      .concat([...seen.entries()].map(([v,l]) => `<option value="${v}">${l}</option>`))
+      .join('');
+  }
+
+  function renderThumbnails(){
+    trackEl.innerHTML = currentList.map((n,i) => `
+      <button type="button" class="nb-thumb" data-index="${i}" aria-label="${n.title}">
+        <img src="${n.image}" alt="${n.title}">
+      </button>`).join('');
+    trackEl.querySelectorAll('.nb-thumb').forEach(btn => {
+      btn.addEventListener('click', () => selectNotebook(Number(btn.dataset.index)));
+    });
+  }
+
+  function renderDetail(item){
+    detailImg.src = item.image;
+    detailImg.alt = item.title;
+    detailCategory.textContent = item.categoryLabel;
+    detailTitle.textContent = item.title;
+    const feats = (item.features && item.features.length)
+      ? `<p class="nb-subhead">ماذا ستجد فيها؟</p><ul class="nb-features">${item.features.map(f => `<li>${f}</li>`).join('')}</ul>`
+      : '';
+    detailBody.innerHTML = `<p>${item.intro}</p>${feats}`;
+  }
+
+  function markActive(index){
+    trackEl.querySelectorAll('.nb-thumb').forEach(btn => {
+      btn.classList.toggle('active', Number(btn.dataset.index) === index);
+    });
+    const active = trackEl.querySelector('.nb-thumb.active');
+    if(active) active.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+  }
+
+  /* the cover circulates WITH the ring: it slides along the ring's
+     edge until it's gone, the ring keeps turning, then the next
+     cover rides back in from the other side of the same circle. */
+  function selectNotebook(index, opts){
+    opts = opts || {};
+    if(!currentList.length) return;
+    index = ((index % currentList.length) + currentList.length) % currentList.length;
+
+    const dir = opts.dir || (index === currentIndex ? 1 : 1);
+    const item = currentList[index];
+    currentIndex = index;
+    markActive(index);
+
+    if(opts.animate === false){
+      clearTimers(); busy = false;
+      stage.classList.add('no-anim');
+      stage.classList.remove('is-out');
+      stage.style.setProperty('--a', '0deg');
+      renderDetail(item);
+      void stage.offsetWidth;
+      stage.classList.remove('no-anim');
+      return;
+    }
+
+    clearTimers();
+    busy = true;
+
+    // 1 · ring turns, cover travels away along its edge
+    spin += 150 * dir;
+    ring.style.setProperty('--spin', spin + 'deg');
+    stage.style.setProperty('--a', (SWING * dir) + 'deg');
+    stage.classList.add('is-out');
+
+    // 2 · once it's out of sight, jump to the entry point on the ring
+    later(() => {
+      renderDetail(item);
+      stage.classList.add('no-anim');
+      stage.style.setProperty('--a', (-SWING * dir) + 'deg');
+      void stage.offsetWidth;
+      stage.classList.remove('no-anim');
+
+      // 3 · the new cover rides back in to its resting spot
+      void stage.offsetWidth;
+      stage.classList.remove('is-out');
+      stage.style.setProperty('--a', '0deg');
+    }, OUT_MS);
+
+    later(() => { busy = false; }, OUT_MS + IN_MS);
+  }
+
+  function step(delta){
+    if(busy) return;
+    selectNotebook(currentIndex + delta, { dir: delta > 0 ? 1 : -1 });
+  }
+
+  function applyFilter(catValue){
+    currentList = catValue === 'all' ? NOTEBOOKS.slice() : NOTEBOOKS.filter(n => n.category === catValue);
+    renderThumbnails();
+    currentIndex = 0;
+    selectNotebook(0, { animate:false });
+  }
+
+  filterEl.addEventListener('change', () => applyFilter(filterEl.value));
+  document.getElementById('prevBtn').addEventListener('click', () => step(-1));
+  document.getElementById('nextBtn').addEventListener('click', () => step(1));
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight') step(-1);
+    if(e.key === 'ArrowLeft')  step(1);
+  });
+
+  buildFilterOptions();
+  applyFilter('all');
+</script>
+</body>
+</html>
