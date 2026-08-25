@@ -272,6 +272,7 @@
     position:relative;
   }
   .sb-arch svg{ width:56%; height:56%; }
+  .sb-arch.stand-arch{ overflow:visible; }
   .sb-arch .ring{
     position:absolute; inset:14px; border:1.5px dashed rgba(111,157,146,.5); border-radius:136px 136px 8px 8px;
   }
@@ -281,29 +282,43 @@
   }
 
   /* 3D book mockup for the notebooks block */
-  .book-stage{ perspective:1200px; }
+  /* .book-stage{
+    perspective:none;
+    display:flex;
+    justify-content:center;
+  } */
+   .book-stage {
+    position: relative;
+    overflow: visible;
+
+   }
+    .book-stage img {
+        width: 130%;
+        max-width: none;
+        display: block;
+        margin-left: auto;   /* Pushes image to the right */
+        margin-right: -37px;;
+        
+    }
   .book-mock{
-    width:220px; aspect-ratio:3/4.3;
-    transform:rotateY(-20deg) rotateX(5deg);
-    transform-style:preserve-3d;
-    border-radius:5px 14px 14px 5px;
-    background:linear-gradient(150deg, var(--teal) 0%, var(--teal-deep) 100%);
-    box-shadow:26px 40px 55px -18px rgba(var(--shadow),.5), inset -10px 0 18px rgba(0,0,0,.22);
+    /* width:min(500px, 100%);
+    transform:rotate(-6deg);
+    background:transparent;
+    box-shadow:none;
     position:relative;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    color:var(--cream); text-align:center; padding:26px;
+    overflow:visible;
+    display:block; */
+    padding:0;
     animation:floaty 6.5s ease-in-out infinite;
   }
-  .book-mock::before{
-    content:""; position:absolute; top:3%; bottom:3%; inset-inline-start:-9px; width:9px;
-    background:repeating-linear-gradient(to bottom, #fbf6ec 0 2px, #e6d9c1 2px 4px);
-    border-radius:3px 0 0 3px;
-    box-shadow:-3px 0 8px rgba(0,0,0,.25);
+  .book-mock::before{ content:none; }
+  .book-mock img{
+    width:120%;
+    height:auto;
+    object-fit:contain;
+    display:block;
+    filter:drop-shadow(0 22px 34px rgba(var(--shadow),.24));
   }
-  .book-mock .bm-mark{ width:34px; height:34px; margin-bottom:14px; opacity:.92; }
-  .book-mock .bm-title{ font-family:'Aref Ruqaa', serif; font-size:1.5rem; line-height:1.3; }
-  .book-mock .bm-line{ width:36px; height:2px; background:var(--coral); margin:12px auto; border-radius:2px; }
-  .book-mock .bm-sub{ font-size:.78rem; opacity:.85; }
 
   /* ============ CONTACT ============ */
   .contact{ padding:110px 0 100px; background:var(--teal-deep); color:var(--cream); text-align:center; }
@@ -370,7 +385,7 @@
     .eyebrow{ font-size:.82rem; margin-bottom:6px; gap:6px; }
     .sb-visual{ flex-basis:auto; }
     .sb-arch{ max-width:250px; }
-    .book-mock{ width:154px; }
+    .book-mock{ width:min(800px, 100%); transform:rotate(-4deg); }
     .sb-text h3{ font-size:clamp(.92rem, 3.2vw, 1.1rem); margin-bottom:8px; }
     .sb-text p{ font-size:.76rem; margin-bottom:12px; }
     .chip-list{ gap:5px; margin-bottom:16px; }
