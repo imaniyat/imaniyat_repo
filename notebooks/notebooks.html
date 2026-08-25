@@ -170,13 +170,18 @@
   gap:30px;
 }
 .nb-info{ min-width:0; }
+.nb-tags{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:18px; }
 .nb-category{
   display:inline-flex; align-items:center; gap:9px;
   background:var(--nb-teal-pale); color:var(--nb-teal);
   font-weight:700; font-size:.9rem; padding:9px 20px; border-radius:100px;
-  margin-bottom:18px;
 }
 .nb-category::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--nb-gold); }
+.nb-price{
+  display:inline-flex; align-items:center;
+  background:var(--nb-accent); color:var(--nb-paper);
+  font-weight:800; font-size:.9rem; padding:9px 20px; border-radius:100px;
+}
 .nb-info h1{
   font-family:'Aref Ruqaa', serif; font-weight:700; color:var(--nb-teal);
   font-size:clamp(2.4rem, 5vw, 3.8rem); line-height:1.25; margin:0 0 22px;
@@ -192,6 +197,14 @@
   content:""; position:absolute; inset-inline-start:0; top:11px;
   width:9px; height:9px; border-radius:50%; background:var(--nb-gold);
 }
+.nb-order-btn{
+  display:inline-flex; align-items:center; gap:10px;
+  margin-top:28px; padding:15px 30px; border-radius:100px;
+  background:var(--teal-deep); color:#fff; font-weight:800; font-size:1rem;
+  box-shadow:0 16px 30px -12px rgb(103 124 111 / 55%);
+  transition:transform .3s var(--nb-ease), box-shadow .3s var(--nb-ease);
+}
+.nb-order-btn:hover{ transform:translateY(-3px); box-shadow:0 20px 36px -12px rgba(38, 54, 44, 0.6); }
 
 /* ===== the ring stage : huge, cropped by the page edge ===== */
 .nb-stage{
@@ -371,9 +384,16 @@
   <main class="nb-detail">
     <!-- RTL: first column renders on the right -->
     <div class="nb-info">
-      <span class="nb-category" id="detailCategory"></span>
+      <div class="nb-tags">
+        <span class="nb-category" id="detailCategory"></span>
+        <span class="nb-price" id="detailPrice"></span>
+      </div>
       <h1 class="display" id="detailTitle"></h1>
       <div id="detailBody"></div>
+      <a class="nb-order-btn" id="orderBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l1.3-4.2A7.9 7.9 0 1 1 9 18.5L4 20Z"/><path d="M8.5 9.7c0 3.6 3 6.5 6.5 6.5" stroke-linecap="round"/></svg>
+        اطلبي هذا الدفتر عبر واتساب
+      </a>
     </div>
 
     <div class="nb-stage" id="stage">
@@ -409,6 +429,7 @@
     {
       category:'quran', categoryLabel:'القرآن الكريم',
       title:'زاد الحفاظ', image:'../media/zad.png',
+      price:'500 أوقية', // TODO: replace with the real price
       intro:'مفكرة زاد الحفاظ هي خريطة عملية لتجعل الحفظ والمراجعة والتدبر أسلوب حياة.',
       features:[
         'معلومات وآداب قرآنية تعمق صلتك بالقرآن',
@@ -420,6 +441,7 @@
     {
       category:'yearly', categoryLabel:'التخطيط السنوي',
       title:'كن أنت الراوي', image:'../media/rawi.png',
+      price:'500 أوقية', // TODO: replace with the real price
       intro:'في سنة 2026... لا تدع أيامك تمرّ دون أثر، كن أنت الراوي، واكتب قصتك بوعي واختيار. هذه المفكرة صُممت لترافقك طوال السنة، تساعدك على تنظيم وقتك، فهم ذاتك، وتتبع تقدّمك خطوة بخطوة.',
       features:[
         'صفحات للتخطيط السنوي والشهري',
@@ -499,8 +521,12 @@
   const filterLabel    = document.getElementById('filterLabel');
   const filterMenu     = document.getElementById('filterMenu');
   const detailCategory = document.getElementById('detailCategory');
+  const detailPrice    = document.getElementById('detailPrice');
   const detailTitle    = document.getElementById('detailTitle');
   const detailBody     = document.getElementById('detailBody');
+  const orderBtn       = document.getElementById('orderBtn');
+
+  const WHATSAPP_NUMBER = '22248566479'; // country code 222 (Mauritania) + 48566479
 
   const stage    = document.getElementById('stage');
   const ring     = document.getElementById('ring');
@@ -593,6 +619,7 @@
 
   function renderDetail(item){
     detailCategory.textContent = item.categoryLabel;
+    detailPrice.textContent = item.price || '';
     detailTitle.textContent = item.title;
 
     const feats = (item.features && item.features.length)
@@ -603,6 +630,9 @@
       : '';
 
     detailBody.innerHTML = `<p>${item.intro}</p>${feats}`;
+
+    const orderMsg = `السلام عليكم، أرغب بطلب دفتر "${item.title}" من إيمانيات.`;
+    orderBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderMsg)}`;
   }
 
   function markActive(index){
