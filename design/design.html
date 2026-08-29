@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التصميم الجرافيكي | إيمانيات</title>
+<meta name="description" content="خدمة التصميم الجرافيكي من إيمانيات: شعارات، ملصقات منتجات، وبوسترات بهوية تشبهك.">
+<link rel="icon" href="../media/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../media/style.css">
+<style>
+.gd-page{
+  --gd-teal:      var(--teal-deep,  #3c665d);
+  --gd-teal-pale: var(--teal-pale,  #e0ece8);
+  --gd-cream:     var(--cream,      #f9f2e6);
+  --gd-paper:     var(--paper,      #fffdf9);
+  --gd-gold:      var(--gold,       #c9a24a);
+  --gd-coral:     var(--coral,      #cf9878);
+  --gd-coral-deep:var(--coral-deep, #a96b49);
+  --gd-ink:       var(--ink,        #2b241c);
+  --gd-ink-soft:  var(--ink-soft,   #6b6055);
+  --gd-shadow:    var(--shadow,     43,36,28);
+  --gd-ease:      var(--ease, cubic-bezier(.22,.9,.25,1));
+  --gd-maxw:      var(--maxw, 1180px);
+}
+
+.gd-page{
+  position:relative; overflow-x:clip; padding-bottom:40px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(111,157,146,.22), transparent 45%),
+    radial-gradient(circle at 88% 78%, rgba(207,152,120,.22), transparent 45%),
+    var(--gd-cream);
+}
+
+/* ---------- top bar : brand + back (same language as notebooks.html) ---------- */
+.gd-topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:var(--gd-maxw); margin:0 auto; padding:22px 24px 0;
+}
+.gd-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+.gd-brand-badge{
+  width:52px; height:52px; border-radius:50%; background:var(--gd-paper);
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid var(--gd-teal-pale);
+  box-shadow:0 8px 20px rgba(var(--gd-shadow),.18);
+}
+.gd-brand-badge img{ width:30px; height:30px; object-fit:contain; }
+.gd-brand span{ font-family:'Aref Ruqaa', serif; font-size:1.05rem; color:var(--gd-teal); }
+.gd-back{
+  width:52px; height:52px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--gd-teal); color:var(--gd-cream);
+  box-shadow:0 12px 24px -10px rgba(var(--gd-shadow),.5);
+  transition:transform .3s var(--gd-ease);
+}
+.gd-back:hover{ transform:scale(1.07); }
+.gd-back svg{ width:21px; height:21px; }
+
+/* ---------- hero ---------- */
+.gd-hero{
+  max-width:var(--gd-maxw); margin:0 auto; padding:56px 24px 30px;
+  display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:52px;
+}
+.gd-eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'Aref Ruqaa', serif; font-size:1.3rem; color:var(--gd-coral-deep);
+  margin-bottom:12px;
+}
+.gd-eyebrow::before{ content:""; width:26px; height:2px; background:var(--gd-coral); border-radius:2px; }
+.gd-hero h1{
+  font-family:'Aref Ruqaa', serif; font-weight:700; color:var(--gd-teal);
+  font-size:clamp(2.3rem, 4.6vw, 3.5rem); line-height:1.25; margin:0 0 18px;
+}
+.gd-hero p{ color:var(--gd-ink-soft); font-size:1.06rem; line-height:1.9; max-width:520px; margin:0 0 26px; }
+.gd-stats{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:30px; }
+.gd-stats span{
+  background:var(--gd-paper); color:var(--gd-teal); font-weight:800; font-size:.9rem;
+  padding:11px 20px; border-radius:100px; box-shadow:0 10px 24px -16px rgba(var(--gd-shadow),.4);
+  border:1px solid rgba(111,157,146,.3);
+}
+.gd-hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+.gd-btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:15px 30px; border-radius:100px; font-weight:800; font-size:1rem;
+  transition:transform .3s var(--gd-ease), box-shadow .3s var(--gd-ease);
+}
+.gd-btn-primary{ background:var(--gd-teal); color:var(--gd-cream); box-shadow:0 14px 28px -10px rgba(60,102,93,.55); }
+.gd-btn-primary:hover{ transform:translateY(-3px); box-shadow:0 18px 32px -10px rgba(60,102,93,.6); }
+.gd-btn-outline{ background:transparent; border:2px solid var(--gd-coral); color:var(--gd-coral-deep); }
+.gd-btn-outline:hover{ transform:translateY(-3px); background:var(--gd-coral); color:var(--gd-paper); }
+
+.gd-hero-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+.gd-ring{
+  position:absolute; width:88%; aspect-ratio:1/1; border-radius:50%;
+  border:2px dashed rgba(111,157,146,.45);
+  animation:gdSpin 34s linear infinite;
+}
+@keyframes gdSpin{ to{ transform:rotate(360deg); } }
+.gd-hero-frame{
+  position:relative; z-index:1; width:78%; aspect-ratio:1/1; border-radius:50%;
+  overflow:hidden; box-shadow:0 30px 60px -20px rgba(var(--gd-shadow),.45);
+  border:6px solid var(--gd-paper);
+}
+.gd-hero-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+.gd-hero-badge{
+  position:absolute; bottom:6%; inset-inline-start:2%; z-index:2;
+  background:var(--gd-paper); color:var(--gd-teal); font-weight:800; font-size:.85rem;
+  padding:10px 18px; border-radius:100px; box-shadow:0 12px 26px -12px rgba(var(--gd-shadow),.5);
+  display:flex; align-items:center; gap:8px;
+}
+.gd-hero-badge::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--gd-gold); }
+
+/* ---------- interactive category tabs + gallery ---------- */
+.gd-gallery{ max-width:var(--gd-maxw); margin:0 auto; padding:60px 24px 20px; }
+.gd-gallery-head{ text-align:center; max-width:640px; margin:0 auto 34px; }
+.gd-gallery-head .gd-eyebrow{ justify-content:center; }
+.gd-gallery-head h2{ font-size:clamp(1.7rem, 3.2vw, 2.3rem); font-weight:900; color:var(--gd-teal); margin:0 0 12px; }
+.gd-gallery-head p{ color:var(--gd-ink-soft); }
+
+.gd-tabs{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:36px; }
+.gd-tab{
+  padding:13px 26px; border-radius:100px; font-weight:800; font-size:.95rem;
+  background:var(--gd-paper); color:var(--gd-ink-soft);
+  box-shadow:0 10px 22px -14px rgba(var(--gd-shadow),.4);
+  transition:background .3s var(--gd-ease), color .3s var(--gd-ease), transform .3s var(--gd-ease);
+}
+.gd-tab:hover{ transform:translateY(-2px); }
+.gd-tab.active{ background:var(--gd-teal); color:var(--gd-cream); }
+
+.gd-cards{ display:grid; grid-template-columns:repeat(2, 1fr); gap:26px; }
+.gd-card{
+  position:relative; border-radius:26px; overflow:hidden; cursor:pointer;
+  aspect-ratio:4/3; box-shadow:0 24px 48px -24px rgba(var(--gd-shadow),.45);
+  transition:transform .45s var(--gd-ease), box-shadow .45s var(--gd-ease);
+}
+.gd-card:hover{ transform:translateY(-6px); box-shadow:0 30px 56px -22px rgba(var(--gd-shadow),.5); }
+.gd-card img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .6s var(--gd-ease);
+}
+.gd-card:hover img{ transform:scale(1.07); }
+.gd-card-tag{
+  position:absolute; inset-inline-start:16px; bottom:16px; z-index:2;
+  background:rgba(43,36,28,.55); backdrop-filter:blur(6px);
+  color:var(--gd-paper); font-weight:700; font-size:.9rem;
+  padding:9px 18px; border-radius:100px;
+}
+.gd-card-zoom{
+  position:absolute; inset-inline-end:16px; top:16px; z-index:2;
+  width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.85);
+  display:flex; align-items:center; justify-content:center; color:var(--gd-teal);
+  opacity:0; transform:scale(.7); transition:opacity .3s var(--gd-ease), transform .3s var(--gd-ease);
+}
+.gd-card:hover .gd-card-zoom{ opacity:1; transform:scale(1); }
+.gd-card-zoom svg{ width:16px; height:16px; }
+
+/* ---------- process timeline ---------- */
+.gd-process{ max-width:var(--gd-maxw); margin:0 auto; padding:70px 24px 20px; }
+.gd-process-head{ text-align:center; max-width:600px; margin:0 auto 44px; }
+.gd-process-head .gd-eyebrow{ justify-content:center; }
+.gd-process-head h2{ font-size:clamp(1.7rem, 3.2vw, 2.3rem); font-weight:900; color:var(--gd-teal); margin:0 0 12px; }
+.gd-steps{ display:grid; grid-template-columns:repeat(4, 1fr); gap:0; position:relative; }
+.gd-steps::before{
+  content:""; position:absolute; top:30px; inset-inline:8%; height:2px;
+  background:repeating-linear-gradient(to left, var(--gd-coral) 0 10px, transparent 10px 18px);
+  z-index:0;
+}
+.gd-step{ position:relative; z-index:1; text-align:center; padding:0 14px; }
+.gd-step-num{
+  width:60px; height:60px; margin:0 auto 18px; border-radius:50%;
+  background:var(--gd-paper); border:2px solid var(--gd-teal-pale);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gd-teal); font-family:'Aref Ruqaa', serif; font-size:1.5rem; font-weight:700;
+  box-shadow:0 14px 26px -14px rgba(var(--gd-shadow),.4);
+  transition:transform .35s var(--gd-ease), background .35s var(--gd-ease), color .35s var(--gd-ease);
+}
+.gd-step:hover .gd-step-num{ transform:translateY(-6px); background:var(--gd-teal); color:var(--gd-cream); }
+.gd-step h3{ font-size:1.05rem; font-weight:800; color:var(--gd-teal); margin:0 0 8px; }
+.gd-step p{ font-size:.9rem; color:var(--gd-ink-soft); margin:0; line-height:1.7; }
+
+/* ---------- CTA ---------- */
+.gd-cta{
+  max-width:var(--gd-maxw); margin:70px auto 0; padding:52px 40px;
+  background:var(--gd-teal); border-radius:36px; text-align:center;
+  color:var(--gd-cream); position:relative; overflow:hidden;
+}
+.gd-cta::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 85% 15%, rgba(249,242,230,.12), transparent 55%);
+}
+.gd-cta > *{ position:relative; z-index:1; }
+.gd-cta h2{ font-family:'Aref Ruqaa', serif; font-size:clamp(1.7rem, 3.4vw, 2.4rem); margin:0 0 14px; }
+.gd-cta p{ opacity:.85; max-width:480px; margin:0 auto 28px; }
+.gd-cta .gd-btn-primary{ background:var(--gd-gold); color:#2b241c; box-shadow:0 14px 28px -10px rgba(0,0,0,.35); }
+.gd-cta .gd-btn-primary:hover{ box-shadow:0 18px 32px -10px rgba(0,0,0,.4); }
+
+/* ---------- lightbox ---------- */
+.gd-lightbox{
+  position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center;
+  background:rgba(20,17,13,.82); backdrop-filter:blur(4px);
+  opacity:0; visibility:hidden; transition:opacity .3s var(--gd-ease);
+  padding:24px;
+}
+.gd-lightbox.open{ opacity:1; visibility:visible; }
+.gd-lightbox img{
+  max-width:min(880px, 100%); max-height:82vh; border-radius:20px;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.6);
+  transform:scale(.94); transition:transform .3s var(--gd-ease);
+}
+.gd-lightbox.open img{ transform:scale(1); }
+.gd-lightbox-close{
+  position:absolute; top:24px; inset-inline-end:24px;
+  width:44px; height:44px; border-radius:50%; background:var(--gd-paper);
+  display:flex; align-items:center; justify-content:center; color:var(--gd-ink);
+}
+
+/* ---------- reveal (reuses site's IntersectionObserver classes) ---------- */
+.reveal{ opacity:0; transform:translateY(40px); transition:opacity .8s var(--gd-ease), transform .8s var(--gd-ease); }
+.reveal.visible{ opacity:1; transform:translateY(0); }
+.reveal.pop{ transform:translateY(24px) scale(.94); }
+.reveal.pop.visible{ transform:translateY(0) scale(1); }
+.delay-1{ transition-delay:.1s; }
+.delay-2{ transition-delay:.2s; }
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .gd-hero{ grid-template-columns:1fr; text-align:center; gap:40px; padding-top:36px; }
+  .gd-hero p{ margin-inline:auto; }
+  .gd-stats{ justify-content:center; }
+  .gd-hero-cta{ justify-content:center; }
+  .gd-hero-visual{ order:-1; max-width:340px; margin:0 auto; }
+  .gd-steps{ grid-template-columns:1fr 1fr; row-gap:36px; }
+  .gd-steps::before{ display:none; }
+}
+@media (max-width:620px){
+  .gd-cards{ grid-template-columns:1fr; }
+  .gd-steps{ grid-template-columns:1fr; }
+  .gd-cta{ padding:40px 24px; border-radius:26px; }
+}
+</style>
+</head>
+<body>
+
+<div class="gd-page">
+
+  <header class="gd-topbar">
+    <a class="gd-back" href="../future.html#services" aria-label="رجوع">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="gd-brand" href="../future.html#home">
+      <span class="gd-brand-badge"><img src="../media/logo.png" alt=""></span>
+      <span>إيمانيات</span>
+    </a>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="gd-hero">
+    <div class="reveal">
+      <div class="gd-eyebrow">خدماتنا</div>
+      <h1>التصميم الجرافيكي</h1>
+      <p>شعار مشروعك، ملصق منتجك، أو بوستر مناسبتك — نصممه بهوية بصرية تشبهك، من الفكرة الأولى إلى الملف الجاهز للطباعة أو النشر.</p>
+      <div class="gd-stats">
+        <span>تصميم الشعارات</span>
+        <span>ملصقات المنتجات</span>
+        <span>تصميم البوسترات</span>
+      </div>
+      <div class="gd-hero-cta">
+        <a class="gd-btn gd-btn-primary" href="https://wa.me/22248566479?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D8%A7%D9%84%D8%AC%D8%B1%D8%A7%D9%81%D9%8A%D9%83%D9%8A." target="_blank" rel="noopener">
+          اطلبي تصميمك الآن
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="gd-btn gd-btn-outline" href="../future.html#contact">تواصل معنا</a>
+      </div>
+    </div>
+
+    <div class="gd-hero-visual reveal pop delay-1">
+      <div class="gd-ring"></div>
+      <div class="gd-hero-frame">
+        <img src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=900&q=80" alt="أدوات ومراحل التصميم الجرافيكي">
+      </div>
+      <span class="gd-hero-badge">+٣ سنوات خبرة</span>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="gd-gallery">
+    <div class="gd-gallery-head reveal">
+      <div class="gd-eyebrow">أعمال ملهمة</div>
+      <h2>اختاري نوع التصميم لتستعرضي أمثلة عليه</h2>
+      <p>ثلاث مساحات إبداعية رئيسية، بلمسة تشبه هوية إيمانيات في كل تفصيل.</p>
+    </div>
+
+    <div class="gd-tabs" id="gdTabs" role="tablist">
+      <button class="gd-tab active" data-cat="logo" role="tab" aria-selected="true">تصميم الشعارات</button>
+      <button class="gd-tab" data-cat="labels" role="tab" aria-selected="false">ملصقات المنتجات</button>
+      <button class="gd-tab" data-cat="posters" role="tab" aria-selected="false">تصميم البوسترات</button>
+    </div>
+
+    <div class="gd-cards" id="gdCards"></div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="gd-process">
+    <div class="gd-process-head reveal">
+      <div class="gd-eyebrow">كيف نعمل</div>
+      <h2>من الفكرة إلى التصميم النهائي</h2>
+    </div>
+    <div class="gd-steps">
+      <div class="gd-step reveal">
+        <div class="gd-step-num">١</div>
+        <h3>نفهم فكرتك</h3>
+        <p>نتحدث عن مشروعك، هويتك، والرسالة التي تريدين إيصالها.</p>
+      </div>
+      <div class="gd-step reveal delay-1">
+        <div class="gd-step-num">٢</div>
+        <h3>نرسم المفهوم</h3>
+        <p>نقترح عليك أفكاراً أولية وألواناً تناسب ذوقك ومشروعك.</p>
+      </div>
+      <div class="gd-step reveal delay-2">
+        <div class="gd-step-num">٣</div>
+        <h3>نراجع سوياً</h3>
+        <p>نعدّل التفاصيل معك حتى يصبح التصميم مطابقاً لتوقعاتك.</p>
+      </div>
+      <div class="gd-step reveal delay-2">
+        <div class="gd-step-num">٤</div>
+        <h3>نسلّم الملف</h3>
+        <p>تستلمين تصميمك جاهزاً للطباعة أو النشر بجودة عالية.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="gd-cta reveal">
+    <h2>جاهزة نبدأ تصميمك؟</h2>
+    <p>راسلينا عبر واتساب وأخبرينا بفكرتك، ونرد عليك بسرعة.</p>
+    <a class="gd-btn gd-btn-primary" href="https://wa.me/22248566479?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85%20%D8%A7%D9%84%D8%AC%D8%B1%D8%A7%D9%81%D9%8A%D9%83%D9%8A." target="_blank" rel="noopener">
+      راسلينا عبر واتساب
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l1.3-4.2A7.9 7.9 0 1 1 9 18.5L4 20Z"/><path d="M8.5 9.7c0 3.6 3 6.5 6.5 6.5" stroke-linecap="round"/></svg>
+    </a>
+  </section>
+
+</div>
+
+<div class="gd-lightbox" id="gdLightbox">
+  <button class="gd-lightbox-close" id="gdLightboxClose" aria-label="إغلاق">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+  </button>
+  <img id="gdLightboxImg" src="" alt="">
+</div>
+
+<script>
+  const CATEGORIES = {
+    logo: {
+      label:'تصميم الشعارات',
+      items:[
+        { img:'https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&w=1400&q=80', caption:'دليل هوية بصرية وألوان العلامة' },
+        { img:'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1400&q=80', caption:'تصميم أيقونة وشعار رقمي' }
+      ]
+    },
+    labels: {
+      label:'ملصقات المنتجات',
+      items:[
+        { img:'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80', caption:'عرض منتج وملصق تسويقي' },
+        { img:'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1400&q=80', caption:'اختيار الألوان والخامات' }
+      ]
+    },
+    posters: {
+      label:'تصميم البوسترات',
+      items:[
+        { img:'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1400&q=80', caption:'ألوان وتكوين بصري جريء' },
+        { img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80', big:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1400&q=80', caption:'أشكال هندسية وتدرجات لونية' }
+      ]
+    }
+  };
+
+  const tabsEl = document.getElementById('gdTabs');
+  const cardsEl = document.getElementById('gdCards');
+  const lightbox = document.getElementById('gdLightbox');
+  const lightboxImg = document.getElementById('gdLightboxImg');
+  const lightboxClose = document.getElementById('gdLightboxClose');
+
+  function renderCategory(catKey){
+    const cat = CATEGORIES[catKey];
+    cardsEl.innerHTML = cat.items.map(item => `
+      <div class="gd-card reveal pop visible" data-big="${item.big}">
+        <img src="${item.img}" alt="${item.caption}" loading="lazy">
+        <span class="gd-card-tag">${item.caption}</span>
+        <span class="gd-card-zoom">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        </span>
+      </div>
+    `).join('');
+
+    cardsEl.querySelectorAll('.gd-card').forEach(card => {
+      card.addEventListener('click', () => openLightbox(card.dataset.big));
+    });
+  }
+
+  function openLightbox(src){
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+    document.body.classList.add('no-scroll');
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  }
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+
+  tabsEl.querySelectorAll('.gd-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabsEl.querySelectorAll('.gd-tab').forEach(t => {
+        t.classList.toggle('active', t === tab);
+        t.setAttribute('aria-selected', String(t === tab));
+      });
+      renderCategory(tab.dataset.cat);
+    });
+  });
+
+  renderCategory('logo');
+
+  // ---------- scroll reveal (same pattern as future.html) ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

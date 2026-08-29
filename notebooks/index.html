@@ -11,6 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../media/style.css">
+<link rel="preload" as="image" href="../media/zad-800.webp">
+<link rel="preload" as="image" href="../media/zad-thumb.webp">
 <style>
 /* =========================================================
    palette — falls back to the site tokens when style.css
@@ -152,7 +154,11 @@
   /* box-shadow:0 10px 20px -14px rgba(var(--nb-shadow),.5); */
   transition:transform .3s var(--nb-ease), border-color .3s, opacity .3s;
 }
-.nb-thumb img{ width:100%; height:100%; object-fit:contain; border-radius:9px; display:block; }
+.nb-thumb img{
+  width:100%; height:100%; object-fit:contain; border-radius:9px; display:block;
+  opacity:0; transition:opacity .3s var(--nb-ease);
+}
+.nb-thumb img.loaded{ opacity:1; }
 .nb-thumb:hover{ transform:translateY(-4px); opacity:1; }
 .nb-thumb.active{
   border-color:#d9b7873f; opacity:1; transform:translateY(-5px) scale(1.06);
@@ -290,7 +296,10 @@
   display:block;
   border-radius:13px;
   filter:drop-shadow(0 12px 18px rgba(var(--nb-shadow),.2));
+  opacity:0;
+  transition:opacity .4s var(--nb-ease);
 }
+.nb-cover img.loaded{ opacity:1; }
 
 .nb-old-cover,
 .nb-new-cover{
@@ -403,14 +412,14 @@
       <!-- OLD COVER -->
       <div class="nb-orbit nb-old-orbit" id="oldOrbit">
         <figure class="nb-cover" id="oldCover">
-          <img src="" id="oldImg" alt="">
+          <img src="" id="oldImg" alt="" decoding="async" onload="this.classList.add('loaded')">
         </figure>
       </div>
 
       <!-- NEW COVER -->
       <div class="nb-orbit nb-new-orbit" id="newOrbit">
         <figure class="nb-cover" id="newCover">
-          <img src="" id="newImg" alt="">
+          <img src="" id="newImg" alt="" decoding="async" onload="this.classList.add('loaded')">
         </figure>
       </div>
     </div>
@@ -419,16 +428,19 @@
 </div>
 
 <script>
-  // Each notebook has its own `image`. Only "زاد الحفاظ" has a real
-  // standalone cover photo so far (media/zad.png). The rest still fall
-  // back to the old group shot (media/notebookstrp.png) until real
-  // individual cover photos are provided for them.
-  const FALLBACK_IMG = '../media/notebookstrp.png';
+  // Each notebook has its own `image` (shown big, in the ring) and a
+  // separate, much smaller `thumb` (shown in the filmstrip) — both are
+  // pre-resized/compressed copies (see media/*-800.webp / *-thumb.webp),
+  // not the original multi-MB source files, so the page stays fast.
+  // Only "زاد الحفاظ" has a real standalone cover photo so far. The rest
+  // still fall back to the old group shot until real photos exist.
+  const FALLBACK_IMG = '../media/notebookstrp-800.webp';
+  const FALLBACK_THUMB = '../media/notebookstrp-thumb.webp';
 
   const NOTEBOOKS = [
     {
       category:'quran', categoryLabel:'القرآن الكريم',
-      title:'زاد الحفاظ', image:'../media/zad.png',
+      title:'زاد الحفاظ', image:'../media/zad-800.webp', thumb:'../media/zad-thumb.webp',
       price:'500 أوقية', // TODO: replace with the real price
       intro:'مفكرة زاد الحفاظ هي خريطة عملية لتجعل الحفظ والمراجعة والتدبر أسلوب حياة.',
       features:[
@@ -440,7 +452,7 @@
     },
     {
       category:'yearly', categoryLabel:'التخطيط السنوي',
-      title:'كن أنت الراوي', image:'../media/rawi.png',
+      title:'كن أنت الراوي', image:'../media/rawi-800.webp', thumb:'../media/rawi-thumb.webp',
       price:'500 أوقية', // TODO: replace with the real price
       intro:'في سنة 2026... لا تدع أيامك تمرّ دون أثر، كن أنت الراوي، واكتب قصتك بوعي واختيار. هذه المفكرة صُممت لترافقك طوال السنة، تساعدك على تنظيم وقتك، فهم ذاتك، وتتبع تقدّمك خطوة بخطوة.',
       features:[
@@ -610,7 +622,8 @@
   function renderThumbnails(){
     trackEl.innerHTML = currentList.map((n,i) => `
       <button type="button" class="nb-thumb" data-index="${i}" aria-label="${n.title}">
-        <img src="${n.image}" alt="${n.title}">
+        <img src="${n.thumb || n.image}" alt="${n.title}" loading="lazy" decoding="async"
+             onload="this.classList.add('loaded')">
       </button>`).join('');
     trackEl.querySelectorAll('.nb-thumb').forEach(btn => {
       btn.addEventListener('click', () => selectNotebook(Number(btn.dataset.index)));
@@ -665,6 +678,7 @@
 
       stage.classList.add('no-anim');
 
+      oldImg.classList.remove('loaded');
       oldImg.src = item.image;
       oldImg.alt = item.title;
 
@@ -695,6 +709,7 @@
     // --------------------------------------------------
 
     // Put the NEW cover at the opposite side BEFORE animation
+    newImg.classList.remove('loaded');
     newImg.src = item.image;
     newImg.alt = item.title;
 
@@ -736,6 +751,7 @@
       // Old becomes the new current cover
       stage.classList.add('no-anim');
 
+      oldImg.classList.remove('loaded');
       oldImg.src = item.image;
       oldImg.alt = item.title;
 
